@@ -43,7 +43,7 @@ dnf install -y --skip-unavailable \
     w3m \
     wget \ 
 
-dnf check-update
+dnf check-update -y
 dnf install -y \
     code
 
