@@ -14,6 +14,9 @@ dnf5 install -y \
     powertop \
     wpa_supplicant
 
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+
 # shell tools and development
 dnf install -y --skip-unavailable \
     cockpit-system \
@@ -39,7 +42,7 @@ dnf install -y --skip-unavailable \
     tree \
     w3m \
     wget \ 
-    btop \
+    # btop \
     code
 
 # desktop plumbing/apps
