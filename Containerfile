@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM ghcr.io/ublue-os/silverblue-nvidia:latest
+FROM ghcr.io/ublue-os/silverblue:latest
 #FROM ghcr.io/ublue-os/bazzite:stable
 
 ## Other possible base images include:
@@ -15,9 +15,56 @@ FROM ghcr.io/ublue-os/silverblue-nvidia:latest
 # Fedora base image: quay.io/fedora/fedora-bootc:41
 # CentOS base images: quay.io/centos-bootc/centos-bootc:stream10
 
-### MODIFICATIONS
-## make modifications desired in your image and install packages by modifying the build.sh script
-## the following RUN directive does all the things required to run "build.sh" as recommended.
+# Make sure that the rootfiles package can be installed
+RUN mkdir -p /var/roothome
+
+#install rpmfusion
+RUN dnf install -y \
+	https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+	https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+RUN dnf group install -y \
+	base-graphical \
+	container-management \
+	core \
+	firefox \
+	fonts \
+	gnome-desktop \
+	guest-desktop-agents \
+	hardware-support \
+	multimedia \
+	networkmanager-submodules \
+	printing \
+	virtualization \
+	workstation-product \
+	; dnf -y clean all
+
+RUN dnf install -y \
+	bash-completion \
+	bcc-tools \
+	gnome-tweaks \
+	htop \
+	neovim \
+	strace \
+	tmate \
+	tmux \
+	vgrep \
+	; dnf -y clean all
+
+RUN systemctl set-default graphical.target
+
+# See https://fedoraproject.org/wiki/Changes/UnprivilegedUpdatesAtomicDesktops:
+#     Avoid annoying popups when logged in.
+RUN dnf install -y fedora-release-ostree-desktop \
+	; dnf -y clean all
+
+# Resize windows on super+mouse-right-click
+RUN gsettings set org.gnome.desktop.wm.preferences resize-with-right-button "true"
+
+# Install all RPMs in ./additional_rpms
+RUN --mount=type=bind,source=./additional_rpms,target=/additional_rpms,Z \
+	dnf -y --disablerepo='*' install --skip-unavailable /additional_rpms/*.rpm \
+	; dnf -y clean all
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
