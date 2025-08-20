@@ -66,12 +66,12 @@ FROM ghcr.io/ublue-os/silverblue-nvidia:latest
 # 	dnf -y --disablerepo='*' install --skip-unavailable /additional_rpms/*.rpm \
 # 	; dnf -y clean all
 
-# RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-#     --mount=type=cache,dst=/var/cache \
-#     --mount=type=cache,dst=/var/log \
-#     --mount=type=tmpfs,dst=/tmp \
-#     /ctx/build.sh && \
-#     ostree container commit
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/build.sh && \
+    ostree container commit
     
 ### LINTING
 ## Verify final image and contents are correct.
