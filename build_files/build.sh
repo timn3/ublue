@@ -15,7 +15,7 @@ dnf5 install -y \
     wpa_supplicant
 
 # shell tools and development
-dnf install -y \
+dnf install -y --skip-unavailable \
     cockpit-system \
     cockpit-ws \
     cyrus-sasl-plain \
