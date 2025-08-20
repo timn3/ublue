@@ -88,7 +88,8 @@ sudoif command *args:
 # Build the image using the specified parameters
 build $target_image=image_name $tag=default_tag:
     #!/usr/bin/env bash
-
+    fedora_version=42
+    
     BUILD_ARGS=()
     BUILD_ARGS+=("--build-arg" "FEDORA_MAJOR_VERSION=${fedora_version}")
     if [[ -z "$(git status -s)" ]]; then
