@@ -78,6 +78,8 @@ install-system-flatpaks $dx="dynamic":
     flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
     xargs flatpak --system -y install --or-update < $TARGET_FLATPAK_FILE
 
+ujust install-system-flatpaks
+
 # This Justfile recipe builds a container image using Podman.
 #
 # Arguments:
