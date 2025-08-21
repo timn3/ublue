@@ -70,15 +70,15 @@ sudoif command *args:
 
 # Install system flatpaks for rebasers
 [group('System')]
-install-system-flatpaks $dx="dynamic":
+install-personalized-flatpaks:
     #!/usr/bin/bash
     TARGET_FLATPAK_FILE="${TARGET_FLATPAK_FILE:-/etc/ublue-os/system-flatpaks.list}"
     # remove other flatpaks
-    flatpak uninstall all
+    flatpak --system -y uninstall --all 
     flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
     xargs flatpak --system -y install --or-update < $TARGET_FLATPAK_FILE
 
-ujust install-system-flatpaks
+just install-personalized-flatpaks
 
 # This Justfile recipe builds a container image using Podman.
 #
