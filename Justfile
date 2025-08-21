@@ -78,8 +78,6 @@ install-personalized-flatpaks:
     flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
     xargs flatpak --system -y install --or-update < $TARGET_FLATPAK_FILE
 
-just install-personalized-flatpaks
-
 # This Justfile recipe builds a container image using Podman.
 #
 # Arguments:

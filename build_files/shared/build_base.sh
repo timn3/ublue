@@ -20,3 +20,10 @@ echo "::endgroup::"
 
 # Install Additional Packages
 /ctx/build_files/base/01-packages.sh
+
+# Install Flatpaks
+
+# remove other flatpaks
+flatpak --system -y uninstall --all 
+flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
+xargs flatpak --system -y install --or-update < /etc/ublue-os/system-flatpaks.list
