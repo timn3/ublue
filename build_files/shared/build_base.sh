@@ -28,5 +28,5 @@ chmod 0755 /usr/bin/bwrap
 # remove other flatpaks
 flatpak --system -y uninstall --all 
 flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
-xargs flatpak --system -y install --or-update --noninteractive < /etc/ublue-os/system-flatpaks.list
+xargs flatpak --system -y install --or-update --noninteractive flathub < /etc/ublue-os/system-flatpaks.list
 echo "::endgroup::"
