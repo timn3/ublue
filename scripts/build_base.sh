@@ -31,7 +31,3 @@ dnf install -y --skip-unavailable \
 	vgrep \
 	git \
 	; dnf -y clean all
-
-dnf remove -y \
-	brltty \
-	abrt
