@@ -24,9 +24,7 @@ RUN dnf install -y \
 	https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
 	https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# install ultramari
-
-
+RUN systemctl mask systemd-remount-fs.service
 RUN systemctl set-default graphical.target
 
 # See https://fedoraproject.org/wiki/Changes/UnprivilegedUpdatesAtomicDesktops:
