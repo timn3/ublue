@@ -20,8 +20,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN mkdir -p /var/roothome
 
 # Shadow users
-# COPY /sysusers-overrides/*.conf /etc/sysusers.d/
-COPY sysusers-overrides/*.conf /usr/etc/sysusers.d/
+COPY /sysusers-overrides/*.conf /etc/sysusers.d/
 
 #install rpmfusion
 RUN dnf install -y \
