@@ -4,7 +4,6 @@ ARG SOURCE_IMAGE="fedora-bootc"
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY /scripts /scripts
-COPY /sysusers-overrides/*.conf /etc/sysusers.d/
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
@@ -19,6 +18,10 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 # Make sure that the rootfiles package can be installed
 RUN mkdir -p /var/roothome
+
+# Shadow users
+# COPY /sysusers-overrides/*.conf /etc/sysusers.d/
+COPY sysusers-overrides/*.conf /usr/etc/sysusers.d/
 
 #install rpmfusion
 RUN dnf install -y \
