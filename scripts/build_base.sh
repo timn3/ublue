@@ -6,8 +6,6 @@ set -ouex pipefail
 rsync -rvK /ctx/system_files/ /
 install -Dm0644 -t /usr/share/flatpak /ctx/flatpaks/*.txt
 
-# make flatpak install script executable
-chmod +x /usr/local/bin/flatpak-user-install.sh
 # Enable service for automatic flatpak install
 systemctl --global enable flatpak-user-install.service
 
