@@ -2,12 +2,12 @@
 set -euo pipefail
 
 LIST_FILE="/usr/share/flatpak/flatpaks.txt"
-RUN_MARKER="$HOME/.local/share/flatpak/.bootc-flatpak-installed"
+# RUN_MARKER="$HOME/.local/share/flatpak/.bootc-flatpak-installed"
 
 # If we've already run once, exit
-if [[ -f "$RUN_MARKER" ]]; then
-    exit 0
-fi
+# if [[ -f "$RUN_MARKER" ]]; then
+#     exit 0
+# fi
 
 # Ensure Flathub exists
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -19,5 +19,5 @@ while IFS= read -r app || [[ -n "$app" ]]; do
 done < "$LIST_FILE"
 
 
-mkdir -p "$(dirname "$RUN_MARKER")"
-touch "$RUN_MARKER"
+# mkdir -p "$(dirname "$RUN_MARKER")"
+# touch "$RUN_MARKER"
