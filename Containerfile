@@ -20,8 +20,6 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/build_base.sh && \
     ostree container commit
 
-
-
 #install rpmfusion
 # RUN dnf install -y \
 # 	https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
