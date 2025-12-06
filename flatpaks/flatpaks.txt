@@ -1,0 +1,3 @@
+org.mozilla.Thunderbird
+org.signal.Signal
+com.spotify.Client

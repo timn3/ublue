@@ -4,7 +4,7 @@ set -ouex pipefail
 
 ### Copy custom services
 rsync -rvK /ctx/system_files/ /
-
+install -Dm0644 -t /usr/share/flatpak /ctx/flatpaks/*.txt
 
 ### Install packages
 
@@ -14,17 +14,13 @@ rsync -rvK /ctx/system_files/ /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux 
+dnf5 install -y tmux
 
-# remove other flatpaks
 
-#flatpak --system -y uninstall --all 
-flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
-# flatpak --system -y install --or-update org.signal.Signal com.spotify.Client
-install -Dm0644 -t /etc/flatpak/preinstall.d/ /ctx/flatpaks/*.list
-if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
-  systemctl enable flatpak-preinstall.service
-fi
+## requires new version
+# if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
+#   systemctl enable flatpak-preinstall.service
+# fi
 
 # Use a COPR Example:
 #

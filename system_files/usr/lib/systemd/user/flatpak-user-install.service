@@ -1,0 +1,11 @@
+[Unit]
+Description=Install user-level Flatpaks on first login
+After=flatpak-session-helper.service
+ConditionPathExists=!%h/.local/share/flatpak/.bootc-flatpak-installed
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/flatpak-user-install.sh
+
+[Install]
+WantedBy=default.target
