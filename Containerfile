@@ -4,6 +4,7 @@ ARG SOURCE_IMAGE="fedora-silverblue"
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY /scripts /scripts
+COPY /flatpaks /flatpaks
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
