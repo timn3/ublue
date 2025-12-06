@@ -19,7 +19,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 # TODO move the following code in build_base.sh
 # Make sure that the rootfiles package can be installed
-# RUN mkdir -p /var/roothome
+RUN mkdir -p /var/roothome
 
 #install rpmfusion
 # RUN dnf install -y \
