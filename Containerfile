@@ -9,6 +9,10 @@ COPY /scripts /scripts
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
 # FROM ghcr.io/ublue-os/silverblue-nvidia:latest
 
+# TODO move the following code in build_base.sh
+# Make sure that the rootfiles package can be installed
+RUN mkdir -p /var/roothome
+
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
@@ -17,9 +21,6 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     ostree container commit
 
 
-# TODO move the following code in build_base.sh
-# Make sure that the rootfiles package can be installed
-# RUN mkdir -p /var/roothome
 
 #install rpmfusion
 # RUN dnf install -y \
