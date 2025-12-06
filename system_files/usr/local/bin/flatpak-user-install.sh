@@ -13,10 +13,11 @@ fi
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Install each Flatpak
-while IFS= read -r app; do
+while IFS= read -r app || [[ -n "$app" ]]; do
     [[ -z "$app" ]] && continue
-    flatpak install -y --user flathub "$app"
+    flatpak install --or-update -y --user flathub "$app"
 done < "$LIST_FILE"
+
 
 mkdir -p "$(dirname "$RUN_MARKER")"
 touch "$RUN_MARKER"

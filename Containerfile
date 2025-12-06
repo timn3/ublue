@@ -15,11 +15,6 @@ FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
 # Make sure that the rootfiles package can be installed
 RUN mkdir -p /var/roothome
 
-# make flatpak install script executable
-RUN chmod +x /usr/local/bin/flatpak-user-install.sh
-# Enable service for automatic flatpak install
-RUN systemctl --global enable flatpak-user-install.service
-
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \

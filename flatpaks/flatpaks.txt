@@ -1,3 +1,13 @@
 org.mozilla.Thunderbird
 org.signal.Signal
 com.spotify.Client
+com.mattjakeman.ExtensionManager
+io.missioncenter.MissionCenter
+app.zen_browser.zen
+com.jgraph.drawio.desktop
+md.obsidian.Obsidian
+org.gnome.meld
+org.onlyoffice.desktopeditors
+org.signal.Signal
+page.tesk.Refine
+com.getpostman.Postman
