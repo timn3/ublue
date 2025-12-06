@@ -12,7 +12,11 @@ set -ouex pipefail
 # this installs a package from fedora repos
 dnf5 install -y tmux 
 
-flatpak install org.signal.Signal com.spotify.Client
+# remove other flatpaks
+
+#flatpak --system -y uninstall --all 
+flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak --system -y install --or-update org.signal.Signal com.spotify.Client
 
 # Use a COPR Example:
 #
