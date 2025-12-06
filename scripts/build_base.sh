@@ -21,7 +21,7 @@ dnf5 install -y tmux
 #flatpak --system -y uninstall --all 
 flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
 # flatpak --system -y install --or-update org.signal.Signal com.spotify.Client
-install -Dm0644 -t /etc/tormed-os/ /ctx/flatpaks/*.list
+install -Dm0644 -t /etc/flatpak/preinstall.d/ /ctx/flatpaks/*.list
 if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
   systemctl enable flatpak-preinstall.service
 fi
