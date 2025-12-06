@@ -5,6 +5,7 @@ ARG SOURCE_IMAGE="fedora-silverblue"
 FROM scratch AS ctx
 COPY /scripts /scripts
 COPY /flatpaks /flatpaks
+COPY /system_files /system_files
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
