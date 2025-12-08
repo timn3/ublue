@@ -27,7 +27,7 @@ gpgkey=https://pkgs.netbird.io/yum/repodata/repomd.xml.key
 repo_gpgcheck=1
 EOF
 
-dnf5 -y config-manager addrepo --from-repofile=/etc/yum.repos.d/netbird.repo
+dnf5 -y config-manager addrepo --overwrite --from-repofile=/etc/yum.repos.d/netbird.repo
 dnf5 install -y netbird
 
 # this installs a package from fedora repos
