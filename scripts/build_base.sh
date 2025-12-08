@@ -17,7 +17,7 @@ systemctl --global enable flatpak-user-install.service
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 
-tee /etc/yum.repos.d/netbird.repo --overwrite <<EOF
+tee /etc/yum.repos.d/netbird.repo<<EOF
 [netbird]
 name=netbird
 baseurl=https://pkgs.netbird.io/yum/
