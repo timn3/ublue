@@ -54,5 +54,5 @@ dnf5 install -y \
 # dnf5 -y copr disable ublue-os/staging
 
 #### Example for enabling a System Unit File
-systemctl enable netbird
+# systemctl enable netbird
 systemctl enable podman.socket
