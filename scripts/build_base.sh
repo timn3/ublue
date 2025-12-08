@@ -17,7 +17,7 @@ systemctl --global enable flatpak-user-install.service
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 
-tee /etc/yum.repos.d/netbird.repo <<EOF
+tee /etc/yum.repos.d/netbird.repo --overwrite <<EOF
 [netbird]
 name=netbird
 baseurl=https://pkgs.netbird.io/yum/
@@ -36,11 +36,11 @@ dnf5 install -y netbird
 #     bat \
 #     btop \
 #     fzf \
+#     zoxide \
+#     zsh
 #     keepassxc \
 #     syncthing \
-#     thunderbird \
-#     zoxide \
-#     zsh 
+#     thunderbird \ 
 
 ## requires flatpak version 1.17
 # if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
