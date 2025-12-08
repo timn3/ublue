@@ -16,11 +16,33 @@ systemctl --global enable flatpak-user-install.service
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
+
+tee /etc/yum.repos.d/netbird.repo <<EOF
+[netbird]
+name=netbird
+baseurl=https://pkgs.netbird.io/yum/
+enabled=1
+gpgcheck=0
+gpgkey=https://pkgs.netbird.io/yum/repodata/repomd.xml.key
+repo_gpgcheck=1
+EOF
+
+dnf5 -y config-manager addrepo --from-repofile=/etc/yum.repos.d/netbird.repo
+dnf5 install -y netbird
+
 # this installs a package from fedora repos
-dnf5 install -y tmux
+# dnf5 install -y \ 
+#     alacritty \
+#     bat \
+#     btop \
+#     fzf \
+#     keepassxc \
+#     syncthing \
+#     thunderbird \
+#     zoxide \
+#     zsh 
 
-
-## requires new version
+## requires flatpak version 1.17
 # if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
 #   systemctl enable flatpak-preinstall.service
 # fi
