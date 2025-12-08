@@ -36,10 +36,10 @@ dnf5 install -y \
     btop \
     fzf \
     zoxide \
-    zsh
-#     keepassxc \
-#     syncthing \
-#     thunderbird \ 
+    zsh \
+    keepassxc \
+    syncthing \
+    thunderbird
 
 ## requires flatpak version 1.17
 # if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
