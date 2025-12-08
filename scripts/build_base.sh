@@ -31,13 +31,12 @@ dnf5 config-manager addrepo --overwrite --from-repofile=/etc/yum.repos.d/netbird
 dnf5 install -y --setopt=tsflags=noscripts netbird
 
 # this installs a package from fedora repos
-# dnf5 install -y \ 
-#     alacritty \
-#     bat \
-#     btop \
-#     fzf \
-#     zoxide \
-#     zsh
+dnf5 install -y \
+    bat \
+    btop \
+    fzf \
+    zoxide \
+    zsh
 #     keepassxc \
 #     syncthing \
 #     thunderbird \ 
