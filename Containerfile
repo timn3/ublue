@@ -9,9 +9,7 @@ COPY /system_files /system_files
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
-# FROM ghcr.io/ublue-os/silverblue-nvidia:latest
 
-# TODO move the following code in build_base.sh
 # Make sure that the rootfiles package can be installed
 RUN mkdir -p /var/roothome
 

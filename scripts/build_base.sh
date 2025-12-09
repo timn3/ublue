@@ -30,6 +30,26 @@ EOF
 dnf5 config-manager addrepo --overwrite --from-repofile=/etc/yum.repos.d/netbird.repo
 dnf5 install -y --setopt=tsflags=noscripts netbird
 
+# Install Gnome Apps
+dnf5 install -y \
+    gnome-logs \
+    gnome-calculator \
+    gnome-calendar \
+    gnome-characters \
+    gnome-clocks \
+    gnome-firmware \
+    gnome-font-viewer \
+    gnome-keyring \ 
+    gnome-text-editor \
+    baobab 
+
+# Install Gnome Extensions
+dnf5 install -y \
+    gnome-shell-extension-appindicator \
+    gnome-shell-extension-caffeine \
+    gnome-shell-extension-gsconnect \ 
+    gnome-shell-extension-user-theme
+
 # this installs a package from fedora repos
 dnf5 install -y \
     bat \
