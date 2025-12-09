@@ -31,7 +31,7 @@ dnf5 config-manager addrepo --overwrite --from-repofile=/etc/yum.repos.d/netbird
 dnf5 install -y --setopt=tsflags=noscripts netbird
 
 # Install Gnome Apps
-dnf5 install -y \
+dnf5 install -y --skip-unavailable \
     gnome-logs \
     gnome-calculator \
     gnome-calendar \
@@ -39,12 +39,11 @@ dnf5 install -y \
     gnome-clocks \
     gnome-firmware \
     gnome-font-viewer \
-    gnome-keyring \ 
     gnome-text-editor \
     baobab 
 
 # Install Gnome Extensions
-dnf5 install -y \
+dnf5 install -y --skip-unavailable \
     gnome-shell-extension-appindicator \
     gnome-shell-extension-caffeine \
     gnome-shell-extension-gsconnect \ 
