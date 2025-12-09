@@ -46,8 +46,7 @@ dnf5 install -y --skip-unavailable \
 dnf5 install -y --skip-unavailable \
     gnome-shell-extension-appindicator \
     gnome-shell-extension-caffeine \
-    gnome-shell-extension-gsconnect \ 
-    gnome-shell-extension-user-theme
+    gnome-shell-extension-gsconnect 
 
 # this installs a package from fedora repos
 dnf5 install -y \
