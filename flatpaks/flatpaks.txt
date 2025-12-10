@@ -9,3 +9,4 @@ org.onlyoffice.desktopeditors
 org.signal.Signal
 page.tesk.Refine
 com.getpostman.Postman
+com.rustdesk.RustDesk
