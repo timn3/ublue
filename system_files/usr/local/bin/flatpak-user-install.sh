@@ -3,7 +3,11 @@ set -euo pipefail
 
 LIST_FILE="/usr/share/flatpak/flatpaks.txt"
 HASH_FILE="$HOME/.local/share/flatpak/.bootc-flatpak-installed"
-OLD_HASH=$(cat "$HASH_FILE")
+if [[ -f "$HASH_FILE" ]]; then
+    OLD_HASH=$(cat "$HASH_FILE")
+else
+    OLD_HASH="N/A"
+fi
 NEW_HASH=$(sha256sum "$LIST_FILE" | awk '{print $1}')
 
 
