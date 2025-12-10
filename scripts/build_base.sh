@@ -52,7 +52,6 @@ dnf5 install -y --skip-unavailable \
 dnf5 install -y \
     bat \
     btop \
-    eza \
     fd \
     fzf \
     rg \
