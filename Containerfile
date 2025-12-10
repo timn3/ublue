@@ -6,6 +6,7 @@ FROM scratch AS ctx
 COPY /scripts /scripts
 COPY /flatpaks /flatpaks
 COPY /system_files /system_files
+COPY /dotfiles /dotfiles
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
