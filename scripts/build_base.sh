@@ -61,14 +61,14 @@ dnf5 install -y \
     syncthing \
     thunderbird 
 
-dnf5 copr enable atim/starship
-dnf5 install -y starship
-dnf5 copr disable atim/starship
+dnf5 -y copr enable atim/starship
+dnf5 -y install starship
+dnf5 -y copr disable atim/starship
 
 
-# dnf5 copr enable principis/howdy
-# dnf5 --refresh install howdy
-# dnf5 copr disable principis/howdy
+# dnf5 -y copr enable principis/howdy
+# dnf5 -y install howdy
+# dnf5 -y copr disable principis/howdy
 
 ## requires flatpak version 1.17
 # if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
