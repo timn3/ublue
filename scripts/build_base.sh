@@ -61,21 +61,19 @@ dnf5 install -y \
     syncthing \
     thunderbird 
 
-## requires flatpak version 1.17
-# if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
-#   systemctl enable flatpak-preinstall.service
-# fi
+dnf5 copr enable atim/starship
+dnf5 install starship
+dnf5 copr disable atim/starship
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
 
 # dnf5 copr enable principis/howdy
 # dnf5 --refresh install howdy
 # dnf5 copr disable principis/howdy
+
+## requires flatpak version 1.17
+# if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
+#   systemctl enable flatpak-preinstall.service
+# fi
 
 #### Example for enabling a System Unit File
 # systemctl enable netbird # fails TODO start as user?
