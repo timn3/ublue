@@ -62,7 +62,7 @@ dnf5 install -y \
     thunderbird 
 
 dnf5 copr enable atim/starship
-dnf5 install starship
+dnf5 install -y starship
 dnf5 copr disable atim/starship
 
 
