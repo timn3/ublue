@@ -4,8 +4,14 @@ set -euo pipefail
 dnf install -y curl jq tar && dnf clean all
 
 # Get latest x86_64 asset URL for eza
-LATEST_URL=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest \
-    | jq -r '.assets[] | select(.name | contains("x86_64")) | .browser_download_url')
+LATEST_URL=$(
+  curl -s https://api.github.com/repos/eza-community/eza/releases/latest \
+    | jq -r '.assets[]
+             | select(.name | contains("x86_64")
+                               and contains("linux")
+                               and endswith(".tar.gz"))
+             | .browser_download_url'
+)
 
 if [[ -z "$LATEST_URL" ]]; then
     echo "ERROR: Could not find x86_64 release asset for eza." >&2
