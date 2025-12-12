@@ -65,10 +65,12 @@ dnf5 -y copr enable atim/starship
 dnf5 -y install starship
 dnf5 -y copr disable atim/starship
 
-
 # dnf5 -y copr enable principis/howdy
 # dnf5 -y install howdy
 # dnf5 -y copr disable principis/howdy
+
+# Install eza
+sh /ctx/scripts/install-eza.sh
 
 ## requires flatpak version 1.17
 # if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
