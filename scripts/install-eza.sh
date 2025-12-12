@@ -8,7 +8,7 @@ LATEST_URL=$(
   curl -s https://api.github.com/repos/eza-community/eza/releases/latest \
     | jq -r '.assets[]
              | select(.name | contains("x86_64")
-                               and contains("linux")
+                               and contains("linux-gnu")
                                and endswith(".tar.gz"))
              | .browser_download_url'
 )
