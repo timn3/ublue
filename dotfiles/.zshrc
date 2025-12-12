@@ -89,6 +89,3 @@ alias ll='eza -al --icons=always'
 alias lt='eza -a --tree --level=1 --icons=always'
 # alias wifi='nmtui'
 
-for file in ~/.config/zshrc.d/*; do
-    source "$file"
-done
