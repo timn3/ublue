@@ -52,6 +52,7 @@ dnf5 install -y --skip-unavailable \
 dnf5 install -y \
     bat \
     btop \
+    fastfetch \
     fd \
     fzf \
     rg \
