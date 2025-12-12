@@ -72,6 +72,9 @@ dnf5 -y copr disable atim/starship
 # Install eza
 sh /ctx/scripts/install-eza.sh
 
+# Install vs code
+sh /ctx/scripts/install-vscode.sh
+
 ## requires flatpak version 1.17
 # if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
 #   systemctl enable flatpak-preinstall.service
