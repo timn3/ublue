@@ -16,19 +16,17 @@ install -Dm0644 -t /usr/share/flatpak /ctx/flatpaks/*.txt
 systemctl --global enable flatpak-user-install.service
 
 ### Install packages
+# Activate non-free rpmfusion repos
+dnf5 -y install \
+    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-tee /etc/yum.repos.d/netbird.repo<<EOF
-[netbird]
-name=netbird
-baseurl=https://pkgs.netbird.io/yum/
-enabled=1
-gpgcheck=0
-gpgkey=https://pkgs.netbird.io/yum/repodata/repomd.xml.key
-repo_gpgcheck=1
-EOF
-
-dnf5 config-manager addrepo --overwrite --from-repofile=/etc/yum.repos.d/netbird.repo
-dnf5 install -y --setopt=tsflags=noscripts netbird
+# Install codecs
+dnf5 -y install \
+        rpmfusion-free-release \
+        rpmfusion-nonfree-release \
+        intel-media-driver libva-intel-driver \
+        gstreamer1-plugin-libav gstreamer1-plugins-bad-free-extras gstreamer1-plugins-ugly gstreamer1-vaapi
 
 # Install Gnome Apps
 dnf5 install -y --skip-unavailable \
@@ -55,6 +53,7 @@ dnf5 install -y \
     fastfetch \
     fd \
     fzf \
+    lm_sensors \
     rg \
     zoxide \
     zsh \
@@ -66,9 +65,15 @@ dnf5 -y copr enable atim/starship
 dnf5 -y install starship
 dnf5 -y copr disable atim/starship
 
-dnf5 -y copr enable principis/howdy
-dnf5 -y install howdy
-dnf5 -y copr disable principis/howdy
+
+### TODO handle python dependency
+# dnf5 -y copr enable principis/howdy
+# dnf5 -y install howdy
+# dnf5 -y copr disable principis/howdy
+
+
+# Install netbird
+sh /ctx/scripts/install-netbird.sh
 
 # Install eza
 sh /ctx/scripts/install-eza.sh
