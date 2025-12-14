@@ -34,8 +34,10 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 # RUN dnf install -y fedora-release-ostree-desktop \
 # 	; dnf -y clean all
 
-# Resize windows on super+mouse-right-click
-# RUN gsettings set org.gnome.desktop.wm.preferences resize-with-right-button "true"
+RUN gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
+RUN gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
+RUN gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
+RUN gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Alt>Tab']"
 
 # Install all RPMs in ./additional_rpms
 # RUN --mount=type=bind,source=./additional_rpms,target=/additional_rpms,Z \
