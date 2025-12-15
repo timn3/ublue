@@ -20,13 +20,34 @@ systemctl --global enable flatpak-user-install.service
 dnf5 -y install \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+### Add Terra
+dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
-# Install codecs
+### Install codecs
 dnf5 -y install \
         rpmfusion-free-release \
-        rpmfusion-nonfree-release \
-        intel-media-driver libva-intel-driver \
+        rpmfusion-nonfree-release
+
+### Media codecs
+dnf5 -y group install multimedia
+dnf5 -y swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
+dnf5 -y upgrade @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components. Required if you use Gnome Videos and other dependent applications.
+dnf5 -y group install -y sound-and-video # Installs useful Sound and Video complementary packages.
+
+### HW Accelerattion
+dnf5 -y install ffmpeg-libs libva libva-utils
+## Intel
+dnf5 -y swap libva-intel-media-driver intel-media-driver --allowerasing
+dnf5 -y install libva-intel-driver \
         gstreamer1-plugin-libav gstreamer1-plugins-bad-free-extras gstreamer1-plugins-ugly gstreamer1-vaapi
+## AMD
+# dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
+# dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+# dnf -y swap mesa-va-drivers.i686 mesa-va-drivers-freeworld.i686
+# dnf -y swap mesa-vdpau-drivers.i686 mesa-vdpau-drivers-freeworld.i686
+
+dnf5 install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
+dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
 
 # Install Gnome Apps
 dnf5 install -y --skip-unavailable \
@@ -52,6 +73,7 @@ dnf5 install -y \
     btop \
     fastfetch \
     fd \
+    fuse \
     fzf \
     lm_sensors \
     rg \
@@ -81,6 +103,9 @@ sh /ctx/scripts/install-eza.sh
 # Install vs code
 sh /ctx/scripts/install-vscode.sh
 
+### Remove fedora startpage
+rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-prefs.js
+
 ## requires flatpak version 1.17
 # if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
 #   systemctl enable flatpak-preinstall.service
@@ -89,3 +114,9 @@ sh /ctx/scripts/install-vscode.sh
 #### Example for enabling a System Unit File
 # systemctl enable netbird # fails TODO start as user?
 systemctl enable podman.socket
+# Disable NetworkManager-wait-online for faster (re-)boot
+systemctl disable NetworkManager-wait-online.service
+
+### Activate GSConnect
+dnf5 -y install nautilus-python 
+firewall-cmd --permanent --zone=public --add-service=kdeconnect
