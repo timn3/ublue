@@ -76,6 +76,7 @@ dnf5 install -y \
     fuse \
     fzf \
     lm_sensors \
+    nautilus-python \
     rg \
     zoxide \
     zsh \
@@ -116,7 +117,3 @@ rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-pre
 systemctl enable podman.socket
 # Disable NetworkManager-wait-online for faster (re-)boot
 systemctl disable NetworkManager-wait-online.service
-
-### Activate GSConnect
-dnf5 -y install nautilus-python 
-firewall-cmd --permanent --zone=public --add-service=kdeconnect
