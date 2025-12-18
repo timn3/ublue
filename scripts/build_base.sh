@@ -60,7 +60,8 @@ dnf5 install -y --skip-unavailable \
     gnome-firmware \
     gnome-font-viewer \
     gnome-text-editor \
-    baobab 
+    baobab \
+    loupe
 
 # Install Gnome Extensions
 dnf5 install -y --skip-unavailable \
@@ -76,14 +77,34 @@ dnf5 install -y \
     fd \
     fuse \
     fzf \
+    htop \
     lm_sensors \
     nautilus-python \
     rg \
     zoxide \
     zsh \
     keepassxc \
+    neovim \
+    solaar \
+    solaar-udev \
     syncthing \
-    thunderbird 
+    thunderbird \
+    vlc \ 
+    vlc-cli \ 
+    vlc-gui-qt \ 
+    vlc-gui-skins2 \ 
+    vlc-libs \ 
+    vlc-plugin-ffmpeg \ 
+    vlc-plugin-gnome \ 
+    vlc-plugin-lua \ 
+    vlc-plugin-notify \ 
+    vlc-plugin-pipewire \ 
+    vlc-plugin-pulseaudio \ 
+    vlc-plugin-visualization \ 
+    vlc-plugins-base \ 
+    vlc-plugins-extra \ 
+    vlc-plugins-freeworld \ 
+    vlc-plugins-video-out
 
 dnf5 -y copr enable atim/starship
 dnf5 -y install starship
