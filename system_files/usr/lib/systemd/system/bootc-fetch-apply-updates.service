@@ -6,4 +6,4 @@ ConditionACPower=true
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/bootc upgrade --apply --quiet
+ExecStart=/usr/bin/bootc upgrade --quiet
