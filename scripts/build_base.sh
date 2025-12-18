@@ -20,6 +20,7 @@ systemctl --global enable flatpak-user-install.service
 dnf5 -y install \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
 ### Add Terra
 dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
@@ -87,7 +88,6 @@ dnf5 install -y \
 dnf5 -y copr enable atim/starship
 dnf5 -y install starship
 dnf5 -y copr disable atim/starship
-
 
 ### TODO handle python dependency
 # dnf5 -y copr enable principis/howdy
