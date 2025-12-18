@@ -70,7 +70,7 @@ dnf5 install -y --skip-unavailable \
     gnome-shell-extension-gsconnect 
 
 # this installs a package from fedora repos
-dnf5 install -y \
+dnf5 install -y --skip-unavailable \
     bat \
     btop \
     fastfetch \
