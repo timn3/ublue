@@ -1,0 +1,10 @@
+[Unit]
+Description=Install user-level Flatpaks on first login
+After=flatpak-session-helper.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/post-first-install-changes.sh
+
+[Install]
+WantedBy=default.target
