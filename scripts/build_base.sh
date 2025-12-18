@@ -89,21 +89,21 @@ dnf5 install -y --skip-unavailable \
     solaar-udev \
     syncthing \
     thunderbird \
-    vlc \ 
-    vlc-cli \ 
-    vlc-gui-qt \ 
-    vlc-gui-skins2 \ 
-    vlc-libs \ 
-    vlc-plugin-ffmpeg \ 
-    vlc-plugin-gnome \ 
-    vlc-plugin-lua \ 
-    vlc-plugin-notify \ 
-    vlc-plugin-pipewire \ 
-    vlc-plugin-pulseaudio \ 
-    vlc-plugin-visualization \ 
-    vlc-plugins-base \ 
-    vlc-plugins-extra \ 
-    vlc-plugins-freeworld \ 
+    vlc \
+    vlc-cli \
+    vlc-gui-qt \
+    vlc-gui-skins2 \
+    vlc-libs \
+    vlc-plugin-ffmpeg \
+    vlc-plugin-gnome \
+    vlc-plugin-lua \
+    vlc-plugin-notify \
+    vlc-plugin-pipewire \
+    vlc-plugin-pulseaudio \
+    vlc-plugin-visualization \
+    vlc-plugins-base \
+    vlc-plugins-extra \
+    vlc-plugins-freeworld \
     vlc-plugins-video-out
 
 dnf5 -y copr enable atim/starship
