@@ -136,7 +136,7 @@ rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-pre
 #### Example for enabling a System Unit File
 # systemctl enable netbird # fails TODO start as user?
 systemctl enable podman.socket
-# Enable service for post install changes
-systemctl enable post-first-install-changes.service
+# Enable user service for post install changes
+systemctl --global enable post-first-install-changes.service
 # Disable NetworkManager-wait-online for faster (re-)boot
 systemctl disable NetworkManager-wait-online.service
