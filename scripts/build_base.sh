@@ -142,5 +142,7 @@ rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-pre
 systemctl enable podman.socket
 # Enable user service for post install changes
 systemctl --global enable post-first-install-changes.service
+# Enable user service for syncthing
+systemctl --global enable syncthing.service
 # Disable NetworkManager-wait-online for faster (re-)boot
 systemctl disable NetworkManager-wait-online.service
