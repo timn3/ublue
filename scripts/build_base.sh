@@ -116,7 +116,7 @@ dnf5 -y copr disable wojnilowicz/ungoogled-chromium
 
 ### TODO handle python dependency
 dnf5 -y copr enable principis/howdy-beta
-dnf5 -y install python3dist howdy
+dnf5 -y install libv4l-devel howdy
 dnf5 -y copr disable principis/howdy-beta
 
 
