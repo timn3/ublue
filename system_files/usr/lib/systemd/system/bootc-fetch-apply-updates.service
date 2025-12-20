@@ -1,6 +1,7 @@
 [Unit]
 Description=Apply bootc updates
 Documentation=man:bootc(8)
+After=network-online.target
 ConditionPathExists=/run/ostree-booted
 ConditionACPower=true
 
