@@ -51,7 +51,7 @@ dnf5 install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
 dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
 
 # Install Gnome Apps
-dnf5 install -y --skip-unavailable \
+dnf5 install -y \
     gnome-logs \
     gnome-calculator \
     gnome-calendar \
@@ -64,13 +64,13 @@ dnf5 install -y --skip-unavailable \
     loupe
 
 # Install Gnome Extensions
-dnf5 install -y --skip-unavailable \
+dnf5 install -y \
     gnome-shell-extension-appindicator \
     gnome-shell-extension-caffeine \
     gnome-shell-extension-gsconnect 
 
 # this installs a package from fedora repos
-dnf5 install -y --skip-unavailable \
+dnf5 install -y \
     bat \
     btop \
     fastfetch \
@@ -116,7 +116,7 @@ dnf5 -y copr disable wojnilowicz/ungoogled-chromium
 
 ### TODO handle python dependency
 # dnf5 -y copr enable principis/howdy-beta
-# dnf5 -y install libv4l-devel howdy
+# dnf5 -y install howdy
 # dnf5 -y copr disable principis/howdy-beta
 
 
@@ -125,6 +125,9 @@ sh /ctx/scripts/install-netbird.sh
 
 # Install eza
 sh /ctx/scripts/install-eza.sh
+
+# Install howdy
+sh /ctx/scripts/install-howdy.sh
 
 # Install vs code
 sh /ctx/scripts/install-vscode.sh
