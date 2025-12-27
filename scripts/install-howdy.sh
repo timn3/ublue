@@ -26,6 +26,14 @@ meson install -C /tmp/howdy/build
 
 # Cleanup
 rm -rf /tmp/howdy
+dnf5 -y group remove development-tools development-libraries
+dnf5 -y remove \
+    meson ninja-build gcc-c++ \
+    python3 python3-pip python3-setuptools python3-wheel \
+    cmake make \
+    pam-devel inih-devel libevdev-devel python3-opencv \
+    python3-devel opencv-devel
+
 
 # howdy version
 echo ">>> howdy installed successfully."
