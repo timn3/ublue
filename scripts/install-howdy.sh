@@ -13,7 +13,7 @@ dnf5 -y install \
     python3 python3-pip python3-setuptools python3-wheel \
     cmake make \
     pam-devel inih-devel libevdev-devel python3-opencv \
-    python3-devel opencv-devel
+    python3-devel opencv-devel python3-dlib
 
 # Download tarball
 git clone "$GIT_URL" /tmp/howdy
@@ -32,7 +32,7 @@ dnf5 -y remove \
     python3 python3-pip python3-setuptools python3-wheel \
     cmake make \
     pam-devel inih-devel libevdev-devel python3-opencv \
-    python3-devel opencv-devel
+    python3-devel opencv-devel python3-dlib
 
 
 # howdy version
