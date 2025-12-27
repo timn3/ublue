@@ -8,7 +8,7 @@ GIT_URL="https://github.com/boltgolt/howdy.git"
 
 # Install dependencies
 dnf5 -y group install --skip-unavailable development-tools development-libraries
-dnf5 -y install \
+dnf5 -y install --skip-unavailable \
     meson ninja-build gcc-c++ \
     python3 python3-pip python3-setuptools python3-wheel \
     cmake make \
