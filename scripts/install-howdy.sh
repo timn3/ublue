@@ -24,10 +24,8 @@ meson setup /tmp/howdy/build /tmp/howdy
 meson compile -C /tmp/howdy/build
 meson install -C /tmp/howdy/build
 
-# install -m 0755 "$GIT_URL" /usr/bin/howdy
-
 # Cleanup
-# rm -rf /tmp/eza.tar.gz /tmp/eza_extract
+rm -rf /tmp/howdy
 
-howdy version
+# howdy version
 echo ">>> howdy installed successfully."
