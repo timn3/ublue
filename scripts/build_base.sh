@@ -127,7 +127,8 @@ sh /ctx/scripts/install-netbird.sh
 sh /ctx/scripts/install-eza.sh
 
 # Install howdy
-sh /ctx/scripts/install-howdy.sh
+# TODO Solve dependency issues
+# sh /ctx/scripts/install-howdy.sh
 
 # Install vs code
 sh /ctx/scripts/install-vscode.sh
