@@ -120,6 +120,9 @@ dnf5 -y copr disable wojnilowicz/ungoogled-chromium
 # dnf5 -y copr disable principis/howdy-beta
 
 
+# Install battop
+sh /ctx/scripts/install-battop.sh
+
 # Install netbird
 sh /ctx/scripts/install-netbird.sh
 
