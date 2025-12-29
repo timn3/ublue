@@ -26,12 +26,9 @@ meson install -C /tmp/howdy/build
 
 # Cleanup
 rm -rf /tmp/howdy
-# dnf5 -y group remove development-tools development-libraries
 dnf5 -y remove \
     meson ninja-build gcc-c++ \
-    python3 python3-pip python3-setuptools python3-wheel \
-    cmake make opencv opencv-devel \
-    pam-devel inih-devel libevdev-devel python3-opencv \
+    cmake make \
     python3-devel python3-dlib
 
 
