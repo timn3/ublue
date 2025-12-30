@@ -8,7 +8,7 @@ LATEST_URL=$(
   curl -s https://api.github.com/repos/svartalf/rust-battop/releases/latest \
     | jq -r '.assets[]
              | select(.name | contains("x86_64")
-                               and contains("linux-gnu")
+                               and endswith("linux-gnu"))
              | .browser_download_url'
 )
 
