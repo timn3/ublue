@@ -18,13 +18,16 @@ echo ">>> Installing netbird..."
 dnf5 install -y --setopt=tsflags=noscripts netbird netbird-ui
 
 echo ">>> activating netbird services..."
-# ensure the service is started after install
-netbird service install || true
-netbird service start || true
+
 # disable ssh config modification by netbird
 mkdir -p /etc/netbird
 cat >/etc/netbird/netbird.env <<'EOF'
 NB_DISABLE_SSH_CONFIG=true
 EOF
+rm /etc/ssh/ssh_config.d/99-netbird.conf
+
+# ensure the service is started after install
+netbird service install || true
+netbird service start || true
 
 echo ">>> Netbird installation completed."
