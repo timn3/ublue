@@ -22,6 +22,9 @@ echo ">>> activating netbird services..."
 netbird service install || true
 netbird service start || true
 # disable ssh config modification by netbird
-netbird service reconfigure --service-env NB_DISABLE_SSH_CONFIG=true || true
+mkdir -p /etc/netbird
+cat >/etc/netbird/netbird.env <<'EOF'
+NB_DISABLE_SSH_CONFIG=true
+EOF
 
 echo ">>> Netbird installation completed."
