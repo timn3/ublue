@@ -1,0 +1,11 @@
+[Unit]
+Description=Check for bootc updates daily
+Documentation=man:bootc(8)
+ConditionPathExists=/run/ostree-booted
+
+[Timer]
+OnCalendar=*-*-* 12:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

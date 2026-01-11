@@ -1,0 +1,9 @@
+[Unit]
+Description=Check for bootc updates
+Documentation=man:bootc(8)
+After=network-online.target
+ConditionPathExists=/run/ostree-booted
+
+[Service]
+Type=oneshot
+ExecStart=/etc/local_scripts/bootc-check-update.sh

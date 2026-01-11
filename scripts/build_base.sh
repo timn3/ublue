@@ -146,7 +146,8 @@ rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-pre
 
 #### Example for enabling a System Unit File
 # Enable automatic update service
-systemctl enable bootc-fetch-apply-updates.service
+systemctl enable bootc-check-update.timer
+systemctl enable bootc-check-update.service
 # systemctl enable netbird # fails TODO start as user?
 systemctl enable podman.socket
 # Enable user service for post install changes
