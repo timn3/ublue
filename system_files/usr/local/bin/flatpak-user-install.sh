@@ -19,7 +19,7 @@ fi
 echo "Flatpak list changed, re-installing flatpaks."
 # Ensure Flathub exists
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak uninstall -y --all
+
 # Install each Flatpak
 while IFS= read -r app || [[ -n "$app" ]]; do
     [[ -z "$app" ]] && continue
