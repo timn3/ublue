@@ -14,6 +14,7 @@ FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
 # Make sure that the rootfiles package can be installed
 RUN mkdir -p /var/roothome
 
+# Stage 1: Base OS setup
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
@@ -21,29 +22,26 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/build_base.sh && \
     ostree container commit
 
-#install rpmfusion
-# RUN dnf install -y \
-# 	https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-# 	https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+# Stage 2: User setup
+FROM base AS desktop_setup
 
-# RUN systemctl mask systemd-remount-fs.service
-# RUN systemctl set-default graphical.target
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/desktop_setup.sh && \
+    ostree container commit
 
-# See https://fedoraproject.org/wiki/Changes/UnprivilegedUpdatesAtomicDesktops:
-#     Avoid annoying popups when logged in.
-# RUN dnf install -y fedora-release-ostree-desktop \
-# 	; dnf -y clean all
+# Stage 3: User configuration
+FROM desktop_setup AS user_config
 
-RUN gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
-RUN gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
-RUN gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
-RUN gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Alt>Tab']"
-
-# Install all RPMs in ./additional_rpms
-# RUN --mount=type=bind,source=./additional_rpms,target=/additional_rpms,Z \
-# 	dnf -y --disablerepo='*' install --skip-unavailable /additional_rpms/*.rpm \
-# 	; dnf -y clean all
-
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/user_config.sh && \
+    ostree container commit
+    
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint

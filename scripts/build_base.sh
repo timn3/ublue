@@ -1,19 +1,8 @@
 #!/usr/bin/sh
-
 set -ouex pipefail
 
 ### Copy custom system files
 rsync -rvK /ctx/system_files/ /
-
-### Copy custom dotfiles for user template
-rsync -rvK /ctx/dotfiles/ /etc/skel/
-
-### Install flatpaks
-# Add flatpak list
-install -Dm0644 -t /usr/share/flatpak /ctx/flatpaks/*.txt
-
-# Enable service for automatic flatpak install
-systemctl --global enable flatpak-user-install.service
 
 ### Install packages
 # Activate non-free rpmfusion repos
@@ -50,26 +39,8 @@ dnf5 -y install libva-intel-driver \
 dnf5 install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
 dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
 
-# Install Gnome Apps
-dnf5 install -y \
-    gnome-logs \
-    gnome-calculator \
-    gnome-calendar \
-    gnome-characters \
-    gnome-clocks \
-    gnome-firmware \
-    gnome-font-viewer \
-    gnome-text-editor \
-    baobab \
-    loupe
-
-# Install Gnome Extensions
-dnf5 install -y \
-    gnome-shell-extension-appindicator \
-    gnome-shell-extension-caffeine \
-    gnome-shell-extension-gsconnect 
-
-# this installs a package from fedora repos
+### Install programs
+# Install CLI tools
 dnf5 install -y \
     bat \
     btop \
@@ -83,76 +54,18 @@ dnf5 install -y \
     rg \
     zoxide \
     zsh \
-    keepassxc \
-    neovim \
-    solaar \
-    solaar-udev \
-    syncthing \
-    thunderbird \
-    vlc \
-    vlc-cli \
-    vlc-gui-qt \
-    vlc-gui-skins2 \
-    vlc-libs \
-    vlc-plugin-ffmpeg \
-    vlc-plugin-gnome \
-    vlc-plugin-lua \
-    vlc-plugin-notify \
-    vlc-plugin-pipewire \
-    vlc-plugin-pulseaudio \
-    vlc-plugin-visualization \
-    vlc-plugins-base \
-    vlc-plugins-extra \
-    vlc-plugins-freeworld \
-    vlc-plugins-video-out
+    neovim
 
+# Install eza
+sh /ctx/scripts/install_scripts/install-eza.sh
+
+# Install starship
 dnf5 -y copr enable atim/starship
 dnf5 -y install starship
 dnf5 -y copr disable atim/starship
 
-dnf5 -y copr enable wojnilowicz/ungoogled-chromium 
-dnf5 -y install ungoogled-chromium
-dnf5 -y copr disable wojnilowicz/ungoogled-chromium 
-
-### TODO handle python dependency
-# dnf5 -y copr enable principis/howdy-beta
-# dnf5 -y install howdy
-# dnf5 -y copr disable principis/howdy-beta
-
-
-# Install battop
-sh /ctx/scripts/install-battop.sh
-
-# Install netbird
-sh /ctx/scripts/install-netbird.sh
-
-# Install eza
-sh /ctx/scripts/install-eza.sh
-
-# Install howdy
-# TODO Solve dependency issues
-# sh /ctx/scripts/install-howdy.sh
-
-# Install vs code
-sh /ctx/scripts/install-vscode.sh
-
-### Remove fedora startpage
-rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-prefs.js
-
-## requires flatpak version 1.17
-# if [[ "$(rpm -E %fedora)" -ge "43" ]]; then
-#   systemctl enable flatpak-preinstall.service
-# fi
-
-#### Example for enabling a System Unit File
-# Enable automatic update user service
-systemctl --global enable bootc-check-update.timer
-systemctl --global enable bootc-check-update.service
-# systemctl enable netbird # fails TODO start as user?
+### Enable services
+# Enable podman socket
 systemctl enable podman.socket
-# Enable user service for post install changes
-systemctl --global enable post-first-install-changes.service
-# Enable user service for syncthing
-systemctl --global enable syncthing.service
 # Disable NetworkManager-wait-online for faster (re-)boot
 systemctl disable NetworkManager-wait-online.service
