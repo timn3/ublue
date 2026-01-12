@@ -6,4 +6,4 @@ ConditionPathExists=/run/ostree-booted
 
 [Service]
 Type=oneshot
-ExecStart=/etc/local_scripts/bootc-check-update.sh
+ExecStart=/usr/local/bin/bootc-check-update.sh

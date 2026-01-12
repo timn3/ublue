@@ -1,0 +1,2 @@
+## Allow admins to run the upgrade check without password
+%wheel ALL=(root) NOPASSWD: /usr/bin/bootc upgrade --check
