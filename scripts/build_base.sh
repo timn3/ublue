@@ -59,8 +59,6 @@ dnf5 install -y \
     v4l2loopback \
     ffmpeg
 
-dkms autoinstall ipu7-drivers/0.0.0
-
 # Install eza
 sh /ctx/scripts/install_scripts/install-eza.sh
 
