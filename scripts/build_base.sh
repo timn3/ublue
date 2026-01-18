@@ -54,7 +54,10 @@ dnf5 install -y \
     rg \
     zoxide \
     zsh \
-    neovim
+    neovim \
+    v4l-utils \
+    ffmpeg
+
 
 # Install eza
 sh /ctx/scripts/install_scripts/install-eza.sh
