@@ -13,4 +13,4 @@ notify-send \
  --icon="/etc/ublue/fedora.png" \
  --category="system" \
  "System Update Ready" \
- "A system update has been is available. Run 'sudo bootc upgrade' to apply it."
+ "A system update is available. Run 'sudo bootc upgrade' to apply it."
