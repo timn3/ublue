@@ -56,7 +56,6 @@ dnf5 install -y \
     zsh \
     neovim \
     v4l-utils \
-    v4l2loopback \
     ffmpeg
 
 # Install eza
