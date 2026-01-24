@@ -16,8 +16,19 @@ if [[ "$OLD_HASH" == "$NEW_HASH" ]]; then
     exit 0
 fi
 
-### Activate GSConnect
+### Allow GSConnect to connect through firewall
 firewall-cmd --permanent --zone=public --add-service=kdeconnect
+
+### ensure the netbird service is started after install
+netbird service install || true
+netbird service start || true
+
+### Configure Gnome Keybindings
+## TODO add check if gnome is used
+gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
+gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "[]"
+gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
+gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Alt>Tab']"
 
 mkdir -p "$(dirname "$HASH_FILE")"
 touch "$HASH_FILE"
