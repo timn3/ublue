@@ -1,47 +1,78 @@
 ARG FEDORA_MAJOR_VERSION="43"
 ARG SOURCE_IMAGE="fedora-silverblue"
 
-# Allow build scripts to be referenced without being copied into the final image
-FROM scratch AS ctx
-COPY /scripts /scripts
-COPY /flatpaks /flatpaks
-COPY /system_files /system_files
-COPY /dotfiles /dotfiles
+########################################
+# Stage 1: Build Intel Lunar Lake kernel
+########################################
+FROM fedora:${FEDORA_MAJOR_VERSION} AS kernel-build
+WORKDIR /build
 
-# Base Image
-FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
+RUN dnf install -y \
+    git \
+    gcc \
+    make \
+    bc \
+    bison \
+    flex \
+    elfutils-libelf-devel \
+    elfutils-devel \
+    openssl-devel \
+    rpm-build \
+    dwarves \
+    perl \
+    rsync \
+    tar \
+    xz \
+    hostname \
+    iproute
 
-# Make sure that the rootfiles package can be installed
-RUN mkdir -p /var/roothome
+RUN dnf install -y \
+    openssl
 
-# Stage 1: Base OS setup
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=tmpfs,dst=/tmp \
-    /ctx/scripts/build_base.sh && \
-    ostree container commit
+# Clone Intel kernel
+# RUN git clone https://github.com/intel/linux-intel-lts.git
+COPY /linux-intel-lts /build/linux-intel-lts
+WORKDIR /build/linux-intel-lts
 
-# Stage 2: User setup
-FROM base AS desktop_setup
+COPY lnl-ipu7.config /rpmbuild/.config
+RUN mkdir -p /rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS} && \
+    make -C /build/linux-intel-lts olddefconfig && \
+    make -C /build/linux-intel-lts -j"$(nproc)" rpm-pkg
+RUN ls -lh /build/linux-intel-lts/rpmbuild/RPMS/x86_64/
 
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=tmpfs,dst=/tmp \
-    /ctx/scripts/desktop_setup.sh && \
-    ostree container commit
+########################################
+# Stage 2: bootc image
+########################################
+FROM quay.io/fedora/fedora-bootc:43
 
-# Stage 3: User configuration
-FROM desktop_setup AS user_config
+# Remove Fedora kernel
+RUN dnf remove -y \
+    kernel \
+    kernel-core \
+    kernel-modules \
+    kernel-modules-extra
 
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=tmpfs,dst=/tmp \
-    /ctx/scripts/user_config.sh && \
-    ostree container commit
-    
+# Install Intel kernel RPMs
+
+COPY --from=kernel-build /build/linux-intel-lts/rpmbuild/RPMS/x86_64/ /tmp/kernel/
+RUN dnf install -y /tmp/kernel/*.rpm && rm -rf /tmp/kernel
+
+# IPU7 firmware
+COPY intel-ipu7-firmware/ /usr/lib/firmware/
+
+# Ensure depmod ran
+RUN depmod -a || true
+
+# bootc expects no junk in /var
+RUN rm -rf /var/cache/dnf /var/log/dnf*
+
+########################################
+# Final metadata
+########################################
+LABEL org.opencontainers.image.title="Fedora bootc Lunar Lake IPU7"
+LABEL org.opencontainers.image.description="Fedora bootc with Intel Lunar Lake IPU7 kernel"
+LABEL org.opencontainers.image.vendor="custom"
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
