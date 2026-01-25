@@ -16,7 +16,7 @@ bootc switch ghcr.io/timn3/ublue:latest
 
 Then reboot.
 
-## Referemces
+## References
 I used the following sources:
 
 - https://bootc-dev.github.io/bootc
