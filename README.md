@@ -22,12 +22,12 @@ I used the following sources:
 - https://bootc-dev.github.io/bootc
 - https://docs.fedoraproject.org/en-US/bootc
 
-And took a lot of inspiration (and code) from the following project:
+And took a lot of inspiration (and code) from the following projects:
 - https://github.com/ublue-os/bluefin-lts
 - https://github.com/ublue-os/main
 - https://gitlab.com/fedora/bootc/examples
 
-Special credit to the blog and talks by [Ben Breard][] and the countless examples surrounding the [Universal Blue][] Project.
+Special credit to the blog and talks by [Ben Breard][] and the countless examples surrounding the [Universal Blue][] project.
 
 [Ben Breard]: https://mrguitar.net
 [Universal Blue]: https://universal-blue.org/
