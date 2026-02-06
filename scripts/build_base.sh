@@ -61,6 +61,10 @@ dnf5 install -y \
 # Install eza
 sh /ctx/scripts/install_scripts/install-eza.sh
 
+# Install cosign
+sh /ctx/scripts/install_scripts/install-cosign.sh
+
+
 # Install starship
 dnf5 -y copr enable atim/starship
 dnf5 -y install starship
