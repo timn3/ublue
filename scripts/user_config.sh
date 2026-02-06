@@ -8,9 +8,6 @@ rsync -rvK /ctx/dotfiles/ /etc/skel/
 rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-prefs.js
 
 ### Enable services
-# Enable automatic update user service
-systemctl --global enable bootc-check-update.timer
-systemctl --global enable bootc-check-update.service
 # Enable user service for post install changes
 systemctl --global enable post-first-install-changes.service
 # Enable user service for syncthing

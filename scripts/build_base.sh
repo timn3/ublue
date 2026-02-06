@@ -71,3 +71,5 @@ dnf5 -y copr disable atim/starship
 systemctl enable podman.socket
 # Disable NetworkManager-wait-online for faster (re-)boot
 systemctl disable NetworkManager-wait-online.service
+# Enable automatic update service
+systemctl enable bootc-check-update.timer
