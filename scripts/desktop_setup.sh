@@ -23,7 +23,11 @@ dnf5 install -y \
     vlc-plugins-base \
     vlc-plugins-extra \
     vlc-plugins-freeworld \
-    vlc-plugins-video-out
+    vlc-plugins-video-out \
+    glycin-gtk4-libs \
+    glycin-loaders \
+    glycin-libs \
+    glycin-thumbnailer  
 
 # Install Gnome Apps
 dnf5 install -y \
