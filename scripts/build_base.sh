@@ -44,6 +44,7 @@ dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
 dnf5 install -y \
     bat \
     btop \
+    distrobox \
     fastfetch \
     fd \
     fuse \
