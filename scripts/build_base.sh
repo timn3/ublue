@@ -57,8 +57,7 @@ dnf5 install -y \
     zsh \
     neovim \
     v4l-utils \
-    ffmpeg \
-    mosh
+    ffmpeg
 
 # Install eza
 sh /ctx/scripts/install_scripts/install-eza.sh
@@ -73,8 +72,6 @@ dnf5 -y install starship
 dnf5 -y copr disable atim/starship
 
 ### Enable services
-# Enable podman socket
-systemctl enable podman.socket
 # Disable NetworkManager-wait-online for faster (re-)boot
 systemctl disable NetworkManager-wait-online.service
 # Enable automatic update service
