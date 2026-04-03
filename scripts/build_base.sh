@@ -65,6 +65,9 @@ sh /ctx/scripts/install_scripts/install-eza.sh
 # Install cosign
 sh /ctx/scripts/install_scripts/install-cosign.sh
 
+### Install miracle WM
+dnf5 -y install @miraclewm-desktop-environment
+
 
 # Install starship
 dnf5 -y copr enable atim/starship
