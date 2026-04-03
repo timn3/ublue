@@ -3,6 +3,7 @@ set -ouex pipefail
 
 ### Install programs
 dnf5 install -y \
+    chezmoi \
     keepassxc \
     solaar \
     solaar-udev \
