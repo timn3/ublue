@@ -68,7 +68,7 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 ### Install sway
 dnf5 -y install sway swaybg swayidle swaylock eww wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl mangowm
 dnf5 -y install sway-config-upstream
-dnf5 -y install powertop tlp cpufrequtils
+dnf5 -y install powertop tlp cpufrequtils acpi
 
 # Install starship
 dnf5 -y copr enable atim/starship
