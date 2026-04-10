@@ -67,9 +67,9 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 
 ### Install mango wm
 dnf5 -y install waybar swaybg swayidle swaylock wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl mangowm pavucontrol swaync xdg-desktop-portal-wlr wmenu foot
-dnf copr enable erikreider/swayosd
-dnf install swayosd
-dnf copr disable erikreider/swayosd
+dnf5 copr enable erikreider/swayosd
+dnf5 -y install swayosd
+dnf5 copr disable erikreider/swayosd
 
 # Install starship
 dnf5 -y copr enable atim/starship
