@@ -8,9 +8,7 @@ rsync -rvK /ctx/system_files/ /
 # Activate non-free rpmfusion repos
 dnf5 -y install \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
-    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-rawhide.noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-rawhide.noarch.rpm
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 ### Add Terra
 dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
@@ -68,6 +66,8 @@ sh /ctx/scripts/install_scripts/install-eza.sh
 sh /ctx/scripts/install_scripts/install-cosign.sh
 
 ### Install mango wm
+dnf5 -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-rawhide.noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-rawhide.noarch.rpm
 dnf5 -y install mangowm
 dnf5 -y install waybar swaybg swayidle gtklock wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl pavucontrol swaync xdg-desktop-portal-wlr wmenu foot kitty wlopm
 dnf5 copr enable erikreider/swayosd
