@@ -65,8 +65,11 @@ sh /ctx/scripts/install_scripts/install-eza.sh
 # Install cosign
 sh /ctx/scripts/install_scripts/install-cosign.sh
 
-### Install sway
+### Install mango wm
 dnf5 -y install waybar swaybg swayidle swaylock wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl mangowm pavucontrol swaync xdg-desktop-portal-wlr wmenu foot
+dnf copr enable erikreider/swayosd
+dnf install swayosd
+dnf copr disable erikreider/swayosd
 
 # Install starship
 dnf5 -y copr enable atim/starship
