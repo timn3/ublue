@@ -70,8 +70,9 @@ dnf5 -y install mangowm
 dnf5 -y install waybar swaybg swayidle gtklock wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl pavucontrol swaync xdg-desktop-portal-wlr wmenu foot kitty wlopm
 dnf5 copr enable erikreider/swayosd
 dnf5 -y install swayosd
-# dnf5 copr disable erikreider/swayosd
 rsync -rvK /ctx/system_files/usr/bin/ /usr/bin/
+dnf5 copr enable prankstr/vibepanel
+dnf5 -y install vibepanel
 
 # Install starship
 dnf5 -y copr enable atim/starship
