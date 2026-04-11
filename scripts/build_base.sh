@@ -66,14 +66,6 @@ sh /ctx/scripts/install_scripts/install-eza.sh
 sh /ctx/scripts/install_scripts/install-cosign.sh
 
 ### Install mango wm
-dnf5 clean all
-dnf5 -y install --nodeps https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-rawhide.noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-rawhide.noarch.rpm
-dnf5 -y install gtklock
-dnf5 -y remove https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-rawhide.noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-rawhide.noarch.rpm
-dnf5 clean all
-
 dnf5 -y install mangowm
 dnf5 -y install waybar swaybg swayidle wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl pavucontrol swaync xdg-desktop-portal-wlr wmenu foot kitty wlopm
 dnf5 copr enable erikreider/swayosd
