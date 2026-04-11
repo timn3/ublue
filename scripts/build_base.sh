@@ -67,13 +67,16 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 
 ### Install mango wm
 dnf5 -y install mangowm
-dnf5 -y install waybar swaybg swayidle wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl pavucontrol swaync xdg-desktop-portal-wlr wmenu foot kitty wlopm
+dnf5 -y install waybar swaybg swayidle swaylock wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl pavucontrol swaync xdg-desktop-portal-wlr wmenu foot kitty wlopm
 dnf5 -y copr enable erikreider/swayosd
 dnf5 -y install swayosd
-# copy over custom mango binaries
-rsync -rvK /ctx/system_files/usr/bin/ /usr/bin/
+dnf5 -y copr enable solopasha/hyprland 
+dnf5 -y install hyprlock
 dnf5 -y copr enable prankstr/vibepanel
 dnf5 -y install vibepanel
+# copy over custom mango binaries
+rsync -rvK /ctx/system_files/usr/bin/ /usr/bin/
+
 
 # Install starship
 dnf5 -y copr enable atim/starship
