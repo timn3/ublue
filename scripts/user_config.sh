@@ -13,4 +13,4 @@ systemctl --global enable post-first-install-changes.service
 # Enable user service for syncthing
 systemctl --global enable syncthing.service
 # Enable service for swayosd-libinput-backend
-systemctl enable swayosd-libinput-backend.service
+# systemctl enable swayosd-libinput-backend.service

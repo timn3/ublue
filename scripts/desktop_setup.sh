@@ -15,7 +15,6 @@ dnf5 install -y \
     vlc-gui-skins2 \
     vlc-libs \
     vlc-plugin-ffmpeg \
-    vlc-plugin-gnome \
     vlc-plugin-lua \
     vlc-plugin-notify \
     vlc-plugin-pipewire \
@@ -30,24 +29,6 @@ dnf5 install -y \
     glycin-libs \
     glycin-thumbnailer  
 
-# Install Gnome Apps
-dnf5 install -y \
-    gnome-logs \
-    gnome-calculator \
-    gnome-calendar \
-    gnome-characters \
-    gnome-clocks \
-    gnome-firmware \
-    gnome-font-viewer \
-    gnome-text-editor \
-    baobab \
-    loupe
-
-# Install Gnome Extensions
-dnf5 install -y \
-    gnome-shell-extension-appindicator \
-    gnome-shell-extension-caffeine \
-    gnome-shell-extension-gsconnect 
 
 dnf5 -y copr enable wojnilowicz/ungoogled-chromium 
 dnf5 -y install ungoogled-chromium

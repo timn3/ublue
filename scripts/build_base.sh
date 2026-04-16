@@ -39,6 +39,9 @@ dnf5 -y install libva-intel-driver \
 dnf5 install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
 dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
 
+PACKAGE_LIST=$(dnf5 list --installed | awk '{ print $1 }' | grep gnome ) 
+dnf5 remove -y $PACKAGE_LIST
+
 ### Install programs
 # Install CLI tools
 dnf5 install -y \
@@ -76,7 +79,6 @@ dnf5 -y copr enable prankstr/vibepanel
 dnf5 -y install vibepanel
 # copy over custom mango binaries
 rsync -rvK /ctx/system_files/usr/bin/ /usr/bin/
-
 
 # Install starship
 dnf5 -y copr enable atim/starship
