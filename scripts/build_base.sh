@@ -78,7 +78,7 @@ dnf5 -y install --skip-unavailable \
     xdg-desktop-portal-hyprland \
     brightnessctl playerctl wl-clipboard \
     grim slurp inotify-tools
-dnf5 -y --skip-unavailable install \
+dnf5 -y install --skip-unavailable \
     adw-gtk3-theme papirus-icon-theme \
     nautilus ptyxis loupe \
     gnome-keyring network-manager-applet \
