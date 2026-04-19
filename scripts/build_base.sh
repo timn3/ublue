@@ -73,10 +73,9 @@ dnf5 -y copr enable erikreider/swayosd
 # dnf5 -y copr enable aylur/ags
 dnf5 -y copr enable heus-sueh/packages
 
-dnf5 -y install \
+dnf5 -y install --skip-unavailable \
     hyprland hyprlock hypridle hyprpaper \
     xdg-desktop-portal-hyprland \
-    polkit-gnome \
     brightnessctl playerctl wl-clipboard \
     grim slurp inotify-tools
 dnf5 -y --skip-unavailable install \
