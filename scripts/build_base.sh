@@ -67,9 +67,10 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 
 ### Install hyprland
 dnf5 -y update
-dnf5 -y copr enable lionheartp/Hyprland
+# dnf5 -y copr enable lionheartp/Hyprland
+dnf5 -y copr enable solopasha/hyprland
 dnf5 -y copr enable erikreider/swayosd
-dnf5 -y copr enable aylur/ags
+# dnf5 -y copr enable aylur/ags
 dnf5 -y copr enable heus-sueh/packages
 
 dnf5 -y install \
@@ -83,8 +84,8 @@ dnf5 -y --skip-unavailable install \
     nautilus ptyxis loupe \
     gnome-keyring network-manager-applet \
     google-noto-sans-fonts google-noto-emoji-fonts
-dnf5 -y install ags swayosd
-dnf5 -y install hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager wl-clipboard swww brightnessctl gnome-bluetooth aylurs-gtk-shell power-profiles-daemon gvfs nodejs wf-recorder
+dnf5 -y install swayosd
+dnf5 -y install hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager wl-clipboard swww brightnessctl gnome-bluetooth aylurs-gtk-shell2 power-profiles-daemon gvfs nodejs wf-recorder
 npm install -g --silent sass
 dnf5 -y install python python3-pip; pip install gpustat pywal
 
