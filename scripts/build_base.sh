@@ -65,17 +65,40 @@ sh /ctx/scripts/install_scripts/install-eza.sh
 # Install cosign
 sh /ctx/scripts/install_scripts/install-cosign.sh
 
-### Install mango wm
-dnf5 -y install mangowm
-dnf5 -y install waybar swaybg swayidle swaylock wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl pavucontrol swaync xdg-desktop-portal-wlr wmenu foot kitty wlopm
-dnf5 -y copr enable erikreider/swayosd
-dnf5 -y install swayosd
-dnf5 -y copr enable solopasha/hyprland 
-dnf5 -y install hyprlock
-dnf5 -y copr enable prankstr/vibepanel
-dnf5 -y install vibepanel
-# copy over custom mango binaries
-rsync -rvK /ctx/system_files/usr/bin/ /usr/bin/
+### Install hyprland
+dnf5 -y update
+dnf5 -y copr enable lionheartp/hyprland
+dnf5 -y copr enable erikreider/SwayOSD
+dnf5 -y copr enable aylur/ags
+dnf5 -y copr enable heus-sueh/packages
+
+dnf5 -y install \
+    hyprland hyprlock hypridle hyprpaper \
+    xdg-desktop-portal-hyprland \
+    polkit-gnome \
+    brightnessctl playerctl wl-clipboard \
+    grim slurp inotify-tools
+dnf5 -y --skip-unavailable install \
+    adw-gtk3-theme papirus-icon-theme \
+    nautilus ptyxis loupe \
+    gnome-keyring network-manager-applet \
+    google-noto-sans-fonts google-noto-emoji-fonts
+dnf5 -y install ags swayosd
+dnf5 -y install hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager wl-clipboard swww brightnessctl gnome-bluetooth aylurs-gtk-shell power-profiles-daemon gvfs nodejs wf-recorder
+npm install -g --silent sass
+dnf5 -y install python python3-pip; pip install gpustat pywal
+
+# ### Install mango wm
+# dnf5 -y install mangowm
+# dnf5 -y install waybar swaybg swayidle swaylock wofi grim slurp mako blueman nm-applet tuned-switcher wlroots nmtui brightnessctl bluetoothctl pavucontrol swaync xdg-desktop-portal-wlr wmenu foot kitty wlopm
+# dnf5 -y copr enable erikreider/swayosd
+# dnf5 -y install swayosd
+# dnf5 -y copr enable solopasha/hyprland 
+# dnf5 -y install hyprlock
+# dnf5 -y copr enable prankstr/vibepanel
+# dnf5 -y install vibepanel
+# # copy over custom mango binaries
+# rsync -rvK /ctx/system_files/usr/bin/ /usr/bin/
 
 
 # Install starship
