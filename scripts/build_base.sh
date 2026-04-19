@@ -67,7 +67,7 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 
 ### Install hyprland
 dnf5 -y update
-dnf5 -y copr enable lionheartp/hyprland
+dnf5 -y copr enable lionheartp/Hyprland
 dnf5 -y copr enable erikreider/SwayOSD
 dnf5 -y copr enable aylur/ags
 dnf5 -y copr enable heus-sueh/packages
