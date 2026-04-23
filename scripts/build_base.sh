@@ -78,7 +78,7 @@ dnf5 -y install --skip-unavailable \
     hyprland hyprlock hypridle hyprpaper \
     xdg-desktop-portal-hyprland \
     brightnessctl playerctl wl-clipboard \
-    grim slurp inotify-tools
+    grim slurp inotify-tools hyprland-qtutils 
 dnf5 -y install --skip-unavailable \
     adw-gtk3-theme papirus-icon-theme \
     nautilus ptyxis loupe \
