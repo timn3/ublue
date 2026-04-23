@@ -72,6 +72,7 @@ dnf5 -y copr enable solopasha/hyprland
 dnf5 -y copr enable erikreider/swayosd
 # dnf5 -y copr enable aylur/ags
 dnf5 -y copr enable heus-sueh/packages
+dnf5 -y copr enable prankstr/vibepanel
 
 dnf5 -y install --skip-unavailable \
     hyprland hyprlock hypridle hyprpaper \
@@ -87,6 +88,7 @@ dnf5 -y install swayosd
 dnf5 -y install --skip-unavailable --disablerepo=terra hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager wl-clipboard swww brightnessctl gnome-bluetooth aylurs-gtk-shell2 gvfs nodejs wf-recorder
 npm install -g --silent sass
 dnf5 -y install python python3-pip; pip install gpustat pywal
+dnf5 -y install vibepanel
 
 # ### Install mango wm
 # dnf5 -y install mangowm
