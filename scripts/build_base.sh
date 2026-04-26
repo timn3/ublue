@@ -85,10 +85,11 @@ dnf5 -y install --skip-unavailable \
     gnome-keyring network-manager-applet \
     google-noto-sans-fonts google-noto-emoji-fonts
 dnf5 -y install swayosd
-dnf5 -y install --skip-unavailable --disablerepo=terra hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager wl-clipboard swww brightnessctl gnome-bluetooth aylurs-gtk-shell2 gvfs nodejs wf-recorder
+dnf5 -y install --skip-unavailable --disablerepo=terra hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager swww brightnessctl gnome-bluetooth aylurs-gtk-shell2 gvfs nodejs wf-recorder cliphist dunst
 npm install -g --silent sass
 dnf5 -y install python python3-pip; pip install gpustat pywal
 dnf5 -y install vibepanel
+dnf5 -y install swaybg foot eww-git
 
 # ### Install mango wm
 # dnf5 -y install mangowm
