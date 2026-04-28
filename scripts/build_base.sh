@@ -21,7 +21,7 @@ dnf5 -y install \
 ### Media codecs
 dnf5 -y group install multimedia
 dnf5 -y swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
-dnf5 -y upgrade @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components. Required if you use Gnome Videos and other dependent applications.
+dnf5 -y upgrade @multimedia --setopt='install_weak_deps=False' --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components. Required if you use Gnome Videos and other dependent applications.
 dnf5 -y group install -y sound-and-video # Installs useful Sound and Video complementary packages.
 
 ### HW Accelerattion
@@ -68,28 +68,28 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 ### Install hyprland
 dnf5 -y update
 # dnf5 -y copr enable lionheartp/Hyprland
-dnf5 -y copr enable solopasha/hyprland
-dnf5 -y copr enable erikreider/swayosd
-# dnf5 -y copr enable aylur/ags
-dnf5 -y copr enable heus-sueh/packages
-dnf5 -y copr enable prankstr/vibepanel
+# dnf5 -y copr enable solopasha/hyprland
+# dnf5 -y copr enable erikreider/swayosd
+# # dnf5 -y copr enable aylur/ags
+# dnf5 -y copr enable heus-sueh/packages
+# dnf5 -y copr enable prankstr/vibepanel
 
-dnf5 -y install --skip-unavailable \
-    hyprland hyprlock hypridle hyprpaper \
-    xdg-desktop-portal-hyprland \
-    brightnessctl playerctl wl-clipboard \
-    grim slurp inotify-tools hyprland-qtutils 
-dnf5 -y install --skip-unavailable \
-    adw-gtk3-theme papirus-icon-theme \
-    nautilus ptyxis loupe \
-    gnome-keyring network-manager-applet \
-    google-noto-sans-fonts google-noto-emoji-fonts
-dnf5 -y install swayosd
-dnf5 -y install --skip-unavailable --disablerepo=terra hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager swww brightnessctl gnome-bluetooth aylurs-gtk-shell2 gvfs nodejs wf-recorder cliphist dunst blueman
-npm install -g --silent sass
-dnf5 -y install python python3-pip; pip install gpustat pywal
-dnf5 -y install vibepanel
-dnf5 -y install swaybg foot eww-git
+# dnf5 -y install --skip-unavailable \
+#     hyprland hyprlock hypridle hyprpaper \
+#     xdg-desktop-portal-hyprland \
+#     brightnessctl playerctl wl-clipboard \
+#     grim slurp inotify-tools hyprland-qtutils 
+# dnf5 -y install --skip-unavailable \
+#     adw-gtk3-theme papirus-icon-theme \
+#     nautilus ptyxis loupe \
+#     gnome-keyring network-manager-applet \
+#     google-noto-sans-fonts google-noto-emoji-fonts
+# dnf5 -y install swayosd
+# dnf5 -y install --skip-unavailable --disablerepo=terra hyprlauncher wireplumber upower libgtop2 bluez bluez-tools grimblast hyprpicker btop NetworkManager swww brightnessctl gnome-bluetooth aylurs-gtk-shell2 gvfs nodejs wf-recorder cliphist dunst blueman
+# npm install -g --silent sass
+# dnf5 -y install python python3-pip; pip install gpustat pywal
+# dnf5 -y install vibepanel
+# dnf5 -y install swaybg foot eww-git
 
 # ### Install mango wm
 # dnf5 -y install mangowm
@@ -103,6 +103,35 @@ dnf5 -y install swaybg foot eww-git
 # # copy over custom mango binaries
 # rsync -rvK /ctx/system_files/usr/bin/ /usr/bin/
 
+### Install sway
+dnf5 -y install \
+    sway \
+    waybar \
+    swaybg \
+    swayidle \
+    swaylock \
+    wofi \
+    grim \
+    slurp \
+    mako \
+    blueman \
+    nm-applet \
+    tuned-switcher \
+    wlroots \
+    nmtui \
+    brightnessctl \
+    bluetoothctl \
+    pavucontrol \
+    swaync \
+    xdg-desktop-portal-wlr \
+    wmenu \
+    foot \
+    kitty \
+    wlopm
+
+dnf5 -y copr enable prankstr/vibepanel
+dnf5 -y install vibepanel
+dnf5 -y copr disable prankstr/vibepanel
 
 # Install starship
 dnf5 -y copr enable atim/starship
