@@ -68,6 +68,9 @@ sh /ctx/scripts/install_scripts/install-netbird.sh
 # TODO Solve dependency issues
 # sh /ctx/scripts/install_scripts/install-howdy.sh
 
+# Install zellij
+sh /ctx/scripts/install_scripts/install-zellij.sh
+
 # Install vs code
 sh /ctx/scripts/install_scripts/install-vscode.sh
 
