@@ -127,7 +127,8 @@ dnf5 -y install \
     wmenu \
     foot \
     kitty \
-    wlopm
+    wlopm \
+    noctalia-shell
 
 dnf5 -y copr enable prankstr/vibepanel
 dnf5 -y install vibepanel
