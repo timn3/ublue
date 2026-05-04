@@ -85,7 +85,9 @@ dnf5 -y install \
     xdg-desktop-portal-gtk \
     wmenu \
     foot \
-    kitty
+    kitty \
+    jq \
+    kanshi
     # noctalia-shell
 
 dnf5 -y copr enable lionheartp/Hyprland 
