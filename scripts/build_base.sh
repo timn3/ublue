@@ -85,9 +85,12 @@ dnf5 -y install \
     xdg-desktop-portal-gtk \
     wmenu \
     foot \
-    kitty \
-    noctalia-shell
+    kitty
+    # noctalia-shell
 
+dnf5 -y copr enable lionheartp/Hyprland 
+dnf5 -y install noctalia-shell-v5
+dnf5 -y copr disable lionheartp/Hyprland 
 
 # Install starship
 dnf5 -y copr enable atim/starship
