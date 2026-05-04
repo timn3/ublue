@@ -40,6 +40,7 @@ dnf5 install -y \
     gnome-firmware \
     gnome-font-viewer \
     gnome-text-editor \
+    meld \
     baobab \
     loupe
 
