@@ -89,7 +89,8 @@ dnf5 -y install \
     jq \
     kanshi \
     qs \
-    noctalia-shell
+    noctalia-shell \
+    kde-connect
 
 # dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
