@@ -88,6 +88,7 @@ dnf5 -y install \
     kitty \
     jq \
     kanshi \
+    qs \
     noctalia-shell
 
 # dnf5 -y copr enable lionheartp/Hyprland 
