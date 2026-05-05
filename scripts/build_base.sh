@@ -87,12 +87,12 @@ dnf5 -y install \
     foot \
     kitty \
     jq \
-    kanshi
-    # noctalia-shell
+    kanshi \
+    noctalia-shell
 
-dnf5 -y copr enable lionheartp/Hyprland 
-dnf5 -y install noctalia-shell-v5
-dnf5 -y copr disable lionheartp/Hyprland 
+# dnf5 -y copr enable lionheartp/Hyprland 
+# dnf5 -y install noctalia-shell-v5
+# dnf5 -y copr disable lionheartp/Hyprland 
 
 # Install starship
 dnf5 -y copr enable atim/starship
