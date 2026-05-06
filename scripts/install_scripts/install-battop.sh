@@ -29,5 +29,5 @@ install -m 0755 /tmp/battop /usr/bin/battop
 # Cleanup
 rm -rf /tmp/battop
 
-battop -h
+battop -V
 echo ">>> battop installed successfully."
