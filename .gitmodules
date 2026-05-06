@@ -1,0 +1,3 @@
+[submodule "source_files/dwl"]
+	path = source_files/dwl
+	url = https://codeberg.org/dwl/dwl.git
