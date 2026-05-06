@@ -25,7 +25,7 @@ dnf5 install -y \
 sh /ctx/scripts/install_scripts/install-eza.sh
 
 # Install cosign
-# sh /ctx/scripts/install_scripts/install-cosign.sh
+sh /ctx/scripts/install_scripts/install-cosign.sh
 
 ### Install sway
 dnf5 -y install \
