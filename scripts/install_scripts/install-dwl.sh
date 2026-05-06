@@ -18,5 +18,5 @@ dnf5 install -y \
 
 cd /ctx/source_files/dwl
 
-make -j $(nproc) 
+make -j $(nproc) /ctx/source_files/dwl/Makefile
 make install
