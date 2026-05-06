@@ -15,25 +15,47 @@ FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
 RUN mkdir -p /var/roothome
 
 # Stage 1: Base OS setup
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=tmpfs,dst=/tmp \
-    /ctx/scripts/build_base.sh && \
-    ostree container commit
-
-# Stage 2: User setup
-FROM base AS desktop_setup
+FROM base AS base_os
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/scripts/desktop_setup.sh && \
+    /ctx/scripts/base_os.sh && \
     ostree container commit
 
-# Stage 3: User configuration
-FROM desktop_setup AS user_config
+# Stage 2: Desktop runtime
+FROM base_os AS desktop_runtime
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/desktop_runtime.sh && \
+    ostree container commit
+
+# Stage 3: Desktop apps
+FROM desktop_runtime AS desktop_apps
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/desktop_apps.sh && \
+    ostree container commit
+
+# Stage 4: Desktop extras
+FROM desktop_apps AS desktop_extras
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/desktop_extras.sh && \
+    ostree container commit
+
+# Stage 5: User configuration
+FROM desktop_extras AS user_config
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
@@ -41,8 +63,8 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/scripts/user_config.sh && \
     ostree container commit
-    
-# Stage 4: Cleanup
+
+# Stage 6: Cleanup
 FROM user_config AS final
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \

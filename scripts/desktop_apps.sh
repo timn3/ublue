@@ -28,7 +28,7 @@ dnf5 install -y \
     glycin-gtk4-libs \
     glycin-loaders \
     glycin-libs \
-    glycin-thumbnailer  
+    glycin-thumbnailer
 
 # Install Gnome Apps
 dnf5 install -y \
@@ -58,22 +58,6 @@ dnf5 -y copr disable wojnilowicz/ungoogled-chromium
 # dnf5 -y copr enable principis/howdy-beta
 # dnf5 -y install howdy
 # dnf5 -y copr disable principis/howdy-beta
-
-# Install battop
-sh /ctx/scripts/install_scripts/install-battop.sh
-
-# Install netbird
-sh /ctx/scripts/install_scripts/install-netbird.sh
-
-# Install howdy
-# TODO Solve dependency issues
-# sh /ctx/scripts/install_scripts/install-howdy.sh
-
-# Install zellij
-sh /ctx/scripts/install_scripts/install-zellij.sh
-
-# Install vs code
-sh /ctx/scripts/install_scripts/install-vscode.sh
 
 ### Install flatpaks
 # Add flatpak list
