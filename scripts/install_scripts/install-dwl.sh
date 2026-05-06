@@ -18,4 +18,4 @@ dnf5 install -y \
 
 cd /ctx/source_files/dwl
 
-make -j $(nproc) build
+make -j $(nproc) install
