@@ -1,4 +1,4 @@
-ARG FEDORA_MAJOR_VERSION="43"
+ARG FEDORA_MAJOR_VERSION="44"
 ARG SOURCE_IMAGE="fedora-silverblue"
 
 # Allow build scripts to be referenced without being copied into the final image
