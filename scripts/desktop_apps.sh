@@ -53,6 +53,7 @@ dnf5 install -y \
 dnf5 -y copr enable wojnilowicz/ungoogled-chromium 
 dnf5 -y install ungoogled-chromium
 dnf5 -y copr disable wojnilowicz/ungoogled-chromium 
+rm /etc/yum.repos.d/google-chrome.repo
 
 ### TODO handle python dependency
 # dnf5 -y copr enable principis/howdy-beta
@@ -60,13 +61,14 @@ dnf5 -y copr disable wojnilowicz/ungoogled-chromium
 # dnf5 -y copr disable principis/howdy-beta
 
 ### Install flatpaks
-# Add flatpak list
-install -Dm0644 -t /usr/share/flatpak /ctx/flatpaks/*.txt
+## Switch to flatpak-preinstall when available
+if [[ "$(rpm -E %fedora)" -ge "44" || "$(flatpak --version | awk '{ print $2 }' | awk -F . '{ print $2 }')" -ge "17" ]]; then
 
-# Enable service for automatic flatpak install
-systemctl --global enable flatpak-user-install.service
+    flatpak preinstall --assumeyes --noninteractive /ctx/flatpaks/*.preinstall
+else
+    # Add flatpak list
+    install -Dm0644 -t /usr/share/flatpak /ctx/flatpaks/*.txt
 
-## TODO Switch to flatpak-preinstall when available
-# if [[ "$(rpm -E %fedora)" -ge "44" || "$(flatpak --version | awk '{ print $2 }' | awk -F . '{ print $2 }')" -ge "17" ]]; then
-#   systemctl enable flatpak-preinstall.service
-# fi
+    # Enable service for automatic flatpak install
+    systemctl --global enable flatpak-user-install.service
+fi

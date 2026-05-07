@@ -1,0 +1,39 @@
+[Flatpak Preinstall org.signal.Signal]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.spotify.Client]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.mattjakeman.ExtensionManager]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall io.missioncenter.MissionCenter]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.jgraph.drawio.desktop]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall md.obsidian.Obsidian]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall org.onlyoffice.desktopeditors]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall page.tesk.Refine]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.getpostman.Postman]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.rustdesk.RustDesk]
+CollectionID=org.flathub.Stable
+Install=true
