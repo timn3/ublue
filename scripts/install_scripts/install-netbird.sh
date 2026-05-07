@@ -17,5 +17,6 @@ dnf5 config-manager addrepo --overwrite --from-repofile=/etc/yum.repos.d/netbird
 echo ">>> Installing netbird..."
 dnf5 install -y --setopt=tsflags=noscripts netbird netbird-ui
 
+rm /etc/yum.repos.d/netbird.repo
 
 echo ">>> Netbird installation completed."

@@ -22,4 +22,6 @@ dnf check-update || true   # non-zero exit if no updates, so ignore
 echo ">>> Installing Visual Studio Code..."
 dnf install -y code   # or: code-insiders
 
+rm /etc/yum.repos.d/vscode.repo
+
 echo ">>> VS Code installation completed."
