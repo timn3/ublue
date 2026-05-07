@@ -58,7 +58,7 @@ dnf5 -y install \
 # dnf5 -y install noctalia-shell-v5
 # dnf5 -y copr disable lionheartp/Hyprland 
 
-# sh /ctx/scripts/install_scripts/install-dwl.sh
+sh /ctx/scripts/install_scripts/install-dwl.sh
 
 # Install starship
 dnf5 -y copr enable atim/starship
