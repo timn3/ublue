@@ -29,7 +29,7 @@ rm -rf /tmp/howdy
 dnf5 -y remove \
     meson ninja-build gcc-c++ \
     cmake make \
-    python3-devel python3-dlib
+    python3-devel
 
 
 # howdy version
