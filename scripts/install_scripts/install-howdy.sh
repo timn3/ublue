@@ -23,6 +23,7 @@ echo ">>> Installing howdy from: $GIT_URL..."
 meson setup /tmp/howdy/build /tmp/howdy
 meson compile -C /tmp/howdy/build
 meson install -C /tmp/howdy/build
+# sudo chmod -R 755 /lib/security/howdy
 
 # Cleanup
 rm -rf /tmp/howdy

@@ -9,7 +9,7 @@ sh /ctx/scripts/install_scripts/install-netbird.sh
 
 # Install howdy
 # TODO Solve dependency issues
-sh /ctx/scripts/install_scripts/install-howdy.sh
+# sh /ctx/scripts/install_scripts/install-howdy.sh
 
 # Install zellij
 sh /ctx/scripts/install_scripts/install-zellij.sh
