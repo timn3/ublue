@@ -60,6 +60,9 @@ dnf5 -y install \
 
 # sh /ctx/scripts/install_scripts/install-dwl.sh
 
+# Launcher test:
+dnf5 -y install vicinae fuzzel
+
 # Install starship
 dnf5 -y copr enable atim/starship
 dnf5 -y install starship
