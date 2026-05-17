@@ -63,6 +63,18 @@ dnf5 -y install \
 # Launcher test:
 dnf5 -y install vicinae fuzzel
 
+# auto mount:
+# dnf5 -y install udiskie
+
+# comand line file manager test:
+dnf5 -y copr enable lihaohong/yazi
+dnf5 -y install yazi
+dnf5 -y install nnn
+dnf5 -y copr disable lihaohong/yazi
+
+# lock screen:
+dnf5 -y install gtklock
+
 # Install starship
 dnf5 -y copr enable atim/starship
 dnf5 -y install starship
