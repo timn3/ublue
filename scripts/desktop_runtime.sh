@@ -62,7 +62,7 @@ dnf5 -y install \
 # sh /ctx/scripts/install_scripts/install-dwl.sh
 
 # Launcher test:
-dnf5 -y install vicinae fuzzel
+dnf5 -y install vicinae layer-shell-qt fuzzel
 
 # auto mount:
 # dnf5 -y install udiskie
