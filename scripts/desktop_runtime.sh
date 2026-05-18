@@ -52,7 +52,8 @@ dnf5 -y install \
     kanshi \
     qs \
     noctalia-shell \
-    kde-connect
+    kde-connect \
+    kf6-kitemmodels
 
 # dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
