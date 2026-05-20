@@ -6,6 +6,7 @@ dnf5 install -y \
     chezmoi \
     fuse-libs \
     keepassxc \
+    pinta \
     solaar \
     solaar-udev \
     syncthing \
