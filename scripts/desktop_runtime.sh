@@ -53,7 +53,8 @@ dnf5 -y install \
     qs \
     noctalia-shell \
     kde-connect \
-    kf6-kitemmodels
+    kf6-kitemmodels \
+    layer-shell-qt
 
 dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
@@ -63,7 +64,9 @@ dnf5 -y copr disable lionheartp/Hyprland
 # sh /ctx/scripts/install_scripts/install-dwl.sh
 
 # Launcher test:
-dnf5 -y install vicinae layer-shell-qt fuzzel
+dnf5 -y copr enable quadratech188/vicinae
+dnf5 -y install vicinae
+dnf5 -y copr disable quadratech188/vicinae
 
 # auto mount:
 # dnf5 -y install udiskie
