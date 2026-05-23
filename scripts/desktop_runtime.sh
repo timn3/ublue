@@ -55,9 +55,10 @@ dnf5 -y install \
     kde-connect \
     kf6-kitemmodels
 
-# dnf5 -y copr enable lionheartp/Hyprland 
+dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
-# dnf5 -y copr disable lionheartp/Hyprland 
+dnf5 -y install hyprlock
+dnf5 -y copr disable lionheartp/Hyprland 
 
 # sh /ctx/scripts/install_scripts/install-dwl.sh
 
