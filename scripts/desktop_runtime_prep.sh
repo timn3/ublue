@@ -11,6 +11,7 @@ dnf5 install -y --skip-unavailable \
 	pixman-devel \
 	libdisplay-info-devel \
 	hwdata-devel \
+	seatd \
 	libseat-devel \
 	pcre2-devel \
 	xorg-x11-server-Xwayland-devel \
