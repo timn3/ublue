@@ -30,7 +30,6 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 ### Install sway
 dnf5 -y install \
     sway \
-    waybar \
     swaybg \
     swayidle \
     swaylock \
@@ -58,7 +57,7 @@ dnf5 -y install \
 
 dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
-dnf5 -y install hyprlock
+dnf5 -y install hyprlock hypridle
 dnf5 -y copr disable lionheartp/Hyprland 
 
 # sh /ctx/scripts/install_scripts/install-dwl.sh
