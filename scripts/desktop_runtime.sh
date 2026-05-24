@@ -27,8 +27,6 @@ sh /ctx/scripts/install_scripts/install-eza.sh
 # Install cosign
 sh /ctx/scripts/install_scripts/install-cosign.sh
 
-sh /ctx/scripts/install_scripts/install-mango-ext.sh
-
 ### Install sway
 dnf5 -y install \
     sway \
@@ -77,9 +75,6 @@ dnf5 -y copr enable lihaohong/yazi
 dnf5 -y install yazi
 dnf5 -y install nnn
 dnf5 -y copr disable lihaohong/yazi
-
-# lock screen:
-dnf5 -y install gtklock
 
 # Install starship
 dnf5 -y copr enable atim/starship

@@ -24,8 +24,17 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/base_os.sh && \
     ostree container commit
 
-# Stage 2: Desktop runtime
-FROM base_os AS desktop_runtime
+# Stage 2: Preparation for desktop runtime 
+FROM base_os AS desktop_runtime_prep
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/desktop_runtime_prep.sh && \
+    ostree container commit
+
+# Stage 3: Desktop runtime
+FROM desktop_runtime_prep AS desktop_runtime
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
@@ -34,7 +43,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/desktop_runtime.sh && \
     ostree container commit
 
-# Stage 3: Desktop apps
+# Stage 4: Desktop apps
 FROM desktop_runtime AS desktop_apps
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
@@ -44,7 +53,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/desktop_apps.sh && \
     ostree container commit
 
-# Stage 4: Desktop extras
+# Stage 5: Desktop extras
 FROM desktop_apps AS desktop_extras
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
@@ -54,7 +63,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/desktop_extras.sh && \
     ostree container commit
 
-# Stage 5: User configuration
+# Stage 6: User configuration
 FROM desktop_extras AS user_config
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
@@ -64,7 +73,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/user_config.sh && \
     ostree container commit
 
-# Stage 6: Cleanup
+# Stage 7: Cleanup
 FROM user_config AS final
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
