@@ -6,7 +6,6 @@ FROM scratch AS ctx
 COPY /scripts /scripts
 COPY /flatpaks /flatpaks
 COPY /system_files /system_files
-COPY /source_files /source_files
 COPY /dotfiles /dotfiles
 
 # Base Image
