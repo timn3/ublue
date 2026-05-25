@@ -28,7 +28,8 @@ dnf5 install -y --skip-unavailable \
 	libglvnd-devel \
 	libliftoff-devel \
 	mesa-libgbm-devel \
-	systemd-devel
+	systemd-devel \
+	cjson-devel
 
 mkdir -p /tmp/dev
 cd /tmp/dev
