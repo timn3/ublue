@@ -18,4 +18,4 @@ sh /ctx/scripts/install_scripts/install-zellij.sh
 sh /ctx/scripts/install_scripts/install-vscode.sh
 
 # Install super prod
-sh /ctx/scripts/install_scripts/install-superprod.sh
+# sh /ctx/scripts/install_scripts/install-superprod.sh
