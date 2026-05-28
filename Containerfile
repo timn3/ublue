@@ -7,6 +7,8 @@ COPY /scripts /scripts
 COPY /flatpaks /flatpaks
 COPY /system_files /system_files
 COPY /dotfiles /dotfiles
+COPY /binaries /binaries
+
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
