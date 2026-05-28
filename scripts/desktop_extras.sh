@@ -21,4 +21,4 @@ sh /ctx/scripts/install_scripts/install-vscode.sh
 # sh /ctx/scripts/install_scripts/install-superprod.sh
 
 # Install vpn
-# sh /ctx/scripts/install_scripts/install-vpn.sh
+sh /ctx/scripts/install_scripts/install-vpn.sh
