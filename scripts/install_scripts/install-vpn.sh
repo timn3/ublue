@@ -15,6 +15,8 @@ systemctl enable ostree-state-overlay@opt.service --now
 # fi
 
 # Install Cisco Secure Client VPN
-dnf5 -y install /ctx/binaries/cisco-secure-client-vpn-5.1.17.3382-1.x86_64.rpm
+# dnf5 -y install /ctx/binaries/cisco-secure-client-vpn-5.1.17.3382-1.x86_64.rpm
+dnf5 -y install openconnect 
+
 
 echo ">>> Cisco Secure Client VPN installed successfully."
