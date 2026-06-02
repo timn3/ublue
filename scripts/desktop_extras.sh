@@ -22,3 +22,4 @@ sh /ctx/scripts/install_scripts/install-vscode.sh
 
 # Install vpn
 sh /ctx/scripts/install_scripts/install-vpn.sh
+dnf5 -y install openconnect NetworkManager-openconnect 
