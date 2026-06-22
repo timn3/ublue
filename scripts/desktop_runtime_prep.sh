@@ -29,7 +29,9 @@ dnf5 install -y --skip-unavailable \
 	libliftoff-devel \
 	mesa-libgbm-devel \
 	systemd-devel \
-	cjson-devel
+	cjson-devel \
+	pango-devel \
+	pango
 
 mkdir -p /tmp/dev
 cd /tmp/dev
