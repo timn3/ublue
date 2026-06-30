@@ -51,7 +51,12 @@ dnf5 -y install \
     kde-connect \
     kf6-kitemmodels \
     layer-shell-qt \
-    libfido2-devel
+    libfido2-devel \
+    pam-u2f \
+    pamu2fcfg \
+    ykpers \
+    yubikey-manager \
+    yubikey-manager-qt
 
 dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
