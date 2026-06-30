@@ -56,7 +56,8 @@ dnf5 -y install \
     pamu2fcfg \
     ykpers \
     yubikey-manager \
-    yubikey-manager-qt
+    yubikey-manager-qt \
+    yubioath-desktop
 
 dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
