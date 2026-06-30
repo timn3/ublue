@@ -30,9 +30,6 @@ sh /ctx/scripts/install_scripts/install-cosign.sh
 ### Install sway
 dnf5 -y install \
     sway \
-    swaybg \
-    swayidle \
-    swaylock \
     wofi \
     grim \
     slurp \
