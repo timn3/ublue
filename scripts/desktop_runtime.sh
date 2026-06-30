@@ -50,7 +50,8 @@ dnf5 -y install \
     noctalia-shell \
     kde-connect \
     kf6-kitemmodels \
-    layer-shell-qt
+    layer-shell-qt \
+    libfido2-devel
 
 dnf5 -y copr enable lionheartp/Hyprland 
 # dnf5 -y install noctalia-shell-v5
