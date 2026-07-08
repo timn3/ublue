@@ -6,6 +6,7 @@ dnf5 install -y \
     chezmoi \
     fuse-libs \
     keepassxc \
+    libcamera-tools \
     pinta \
     solaar \
     solaar-udev \
