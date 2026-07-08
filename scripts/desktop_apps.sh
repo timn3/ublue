@@ -8,6 +8,8 @@ dnf5 install -y \
     keepassxc \
     libcamera-tools \
     pinta \
+    powertop \
+    powerstat \
     solaar \
     solaar-udev \
     syncthing \
