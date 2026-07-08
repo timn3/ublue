@@ -7,6 +7,7 @@ dnf5 install -y \
     fuse-libs \
     keepassxc \
     libcamera-tools \
+    libcamera-qcam \
     pinta \
     powertop \
     powerstat \
