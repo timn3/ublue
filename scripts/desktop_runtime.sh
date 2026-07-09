@@ -8,7 +8,10 @@ dnf5 install -y \
     btop \
     distrobox \
     fastfetch \
-    fd \
+    fd-find \
+    gcc \
+    make \
+    tree-sitter-cli \
     fuse \
     fzf \
     htop \
