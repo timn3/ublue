@@ -29,7 +29,8 @@ dnf5 -y install ffmpeg-libs libva libva-utils
 ## Intel
 dnf5 -y swap libva-intel-media-driver intel-media-driver --allowerasing
 dnf5 -y install libva-intel-driver \
-        gstreamer1-plugin-libav gstreamer1-plugins-bad-free-extras gstreamer1-plugins-ugly gstreamer1-vaapi
+        gstreamer1-plugin-libav gstreamer1-plugins-good gstreamer1-plugins-base gstreamer1-plugins-bad-free-extras gstreamer1-plugins-ugly gstreamer1-vaapi
+
 ## AMD
 # dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
 # dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
