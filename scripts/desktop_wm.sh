@@ -7,7 +7,9 @@ dnf5 install -y \
     kanshi \
     kde-connect \
     qs \
-    noctalia-shell
+    noctalia-shell \
+	brightnessctl \
+	bluetoothctl
 
 dnf5 install -y \
     xdg-desktop-portal \
