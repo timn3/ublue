@@ -25,7 +25,6 @@ dnf5 -y install \
     hyprlock \
     hypridle \
     hyprland-plugins \
-    hyprland-protocols \
     hyprlang \
     hyprlauncher \
     hyprpaper \
