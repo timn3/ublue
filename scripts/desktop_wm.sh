@@ -9,7 +9,9 @@ dnf5 install -y \
     qs \
     noctalia-shell \
 	brightnessctl \
-	bluetoothctl
+	bluetoothctl \
+    alacritty \
+    foot
 
 dnf5 install -y \
     xdg-desktop-portal \
