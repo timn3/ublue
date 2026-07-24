@@ -22,6 +22,7 @@ dnf5 -y install \
     hyprcursor \
     hyprgraphics \
     hyprland \
+    hyprland-guiutils \
     hyprlock \
     hypridle \
     hyprland-plugins \
