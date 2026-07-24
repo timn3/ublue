@@ -36,7 +36,7 @@ dnf5 install -y --skip-unavailable \
 mkdir -p /tmp/dev
 cd /tmp/dev
 
-git clone -b 0.19.3 https://gitlab.freedesktop.org/wlroots/wlroots.git
+git clone -b 0.20.2 https://gitlab.freedesktop.org/wlroots/wlroots.git
 cd /tmp/dev/wlroots
 rm -rf build
 meson setup build --prefix=/usr --libdir=lib64 -Drenderers=gles2
