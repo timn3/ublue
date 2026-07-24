@@ -3,6 +3,7 @@ set -ouex pipefail
 
 ### Install programs
 # Install CLI tools
+
 dnf5 install -y \
     bat \
     btop \
@@ -10,17 +11,21 @@ dnf5 install -y \
     fastfetch \
     fd-find \
     gcc \
+    git-delta \
     make \
     tree-sitter-cli \
     fuse \
     fzf \
     htop \
     lm_sensors \
+    jq \
     nautilus-python \
     rg \
     zoxide \
     zsh \
     neovim \
+    procs \
+    dua-cli \
     v4l-utils \
     ffmpeg
 
@@ -30,48 +35,39 @@ sh /ctx/scripts/install_scripts/install-eza.sh
 # Install cosign
 sh /ctx/scripts/install_scripts/install-cosign.sh
 
-### Install sway
-dnf5 -y install \
-    sway \
-    wofi \
-    grim \
-    slurp \
-    nm-applet \
-    tuned-switcher \
-    wlroots \
-    nmtui \
-    brightnessctl \
-    bluetoothctl \
-    xdg-desktop-portal-wlr \
-    xdg-desktop-portal-gtk \
-    wmenu \
-    foot \
-    kitty \
-    jq \
-    kanshi \
-    qs \
-    noctalia-shell \
-    kde-connect \
-    kf6-kitemmodels \
-    layer-shell-qt \
+### Install Yubikey tools
+dnf5 install -y \
     libfido2-devel \
     pam-u2f \
     pamu2fcfg \
     ykpers \
     yubikey-manager \
     yubikey-manager-qt
-
-dnf5 -y copr enable lionheartp/Hyprland 
-# dnf5 -y install noctalia-shell-v5
-dnf5 -y install hyprlock hypridle
-dnf5 -y copr disable lionheartp/Hyprland 
-
-# sh /ctx/scripts/install_scripts/install-dwl.sh
-
-# Launcher test:
-dnf5 -y copr enable quadratech188/vicinae
-dnf5 -y install vicinae
-dnf5 -y copr disable quadratech188/vicinae
+    
+# ### Install sway
+# dnf5 -y install \
+#     sway \
+#     wofi \
+#     grim \
+#     slurp \
+#     nm-applet \
+#     tuned-switcher \
+#     wlroots \
+#     nmtui \
+#     brightnessctl \
+#     bluetoothctl \
+#     xdg-desktop-portal-wlr \
+#     xdg-desktop-portal-gtk \
+#     wmenu \
+#     foot \
+#     kitty \
+#     jq \
+#     kanshi \
+#     qs \
+#     noctalia-shell \
+#     kde-connect \
+#     kf6-kitemmodels \
+#     layer-shell-qt \
 
 # auto mount:
 # dnf5 -y install udiskie
@@ -79,7 +75,7 @@ dnf5 -y copr disable quadratech188/vicinae
 # comand line file manager test:
 dnf5 -y copr enable lihaohong/yazi
 dnf5 -y install yazi
-dnf5 -y install nnn
+# dnf5 -y install nnn
 dnf5 -y copr disable lihaohong/yazi
 
 # Install starship

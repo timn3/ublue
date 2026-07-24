@@ -27,16 +27,16 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     ostree container commit
 
 # Stage 2: Preparation for desktop runtime 
-FROM base_os AS desktop_runtime_prep
+FROM base_os AS desktop_wm
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/scripts/desktop_runtime_prep.sh && \
+    /ctx/scripts/desktop_wm.sh && \
     ostree container commit
 
 # Stage 3: Desktop runtime
-FROM desktop_runtime_prep AS desktop_runtime
+FROM desktop_wm AS desktop_runtime
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \

@@ -9,6 +9,9 @@ rsync -rvK /ctx/system_files/ /
 dnf5 -y install \
     https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+dnf5 -y install dnf-plugins-core
+dnf5 -y check-update
+dnf5 -y upgrade
 
 ### Add Terra
 dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
@@ -39,3 +42,6 @@ dnf5 -y install libva-intel-driver \
 
 dnf5 install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
 dnf5 config-manager setopt fedora-cisco-openh264.enabled=1
+
+### Remove fedora chromium config
+dnf5 -y remove fedora-chromium-config
