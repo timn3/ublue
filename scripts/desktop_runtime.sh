@@ -43,31 +43,6 @@ dnf5 install -y \
     ykpers \
     yubikey-manager \
     yubikey-manager-qt
-    
-# ### Install sway
-# dnf5 -y install \
-#     sway \
-#     wofi \
-#     grim \
-#     slurp \
-#     nm-applet \
-#     tuned-switcher \
-#     wlroots \
-#     nmtui \
-#     brightnessctl \
-#     bluetoothctl \
-#     xdg-desktop-portal-wlr \
-#     xdg-desktop-portal-gtk \
-#     wmenu \
-#     foot \
-#     kitty \
-#     jq \
-#     kanshi \
-#     qs \
-#     noctalia-shell \
-#     kde-connect \
-#     kf6-kitemmodels \
-#     layer-shell-qt \
 
 # auto mount:
 # dnf5 -y install udiskie
