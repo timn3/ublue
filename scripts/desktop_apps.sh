@@ -13,6 +13,7 @@ dnf5 install -y \
     powerstat \
     solaar \
     solaar-udev \
+    steam \
     syncthing \
     thunderbird \
     vlc \
