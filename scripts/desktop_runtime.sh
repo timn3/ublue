@@ -53,11 +53,6 @@ dnf5 -y install yazi
 # dnf5 -y install nnn
 dnf5 -y copr disable lihaohong/yazi
 
-# Install fuzzy finder
-dnf5 -y copr enable avengemedia/danklinux
-dnf5 -y install dsearch
-dnf5 -y copr enable avengemedia/danklinux
-
 # Install starship
 dnf5 -y copr enable atim/starship
 dnf5 -y install starship
