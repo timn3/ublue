@@ -6,8 +6,6 @@ dnf5 install -y \
     nmtui \
     kanshi \
     kde-connect \
-    qs \
-    noctalia-shell \
 	brightnessctl \
 	bluetoothctl \
     alacritty \
