@@ -11,8 +11,7 @@ dnf5 install -y \
 	brightnessctl \
 	bluetoothctl \
     alacritty \
-    foot \
-    dunst
+    foot
 
 dnf5 install -y \
     xdg-desktop-portal \
