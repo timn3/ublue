@@ -59,8 +59,8 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 FROM desktop_apps AS desktop_extras
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
+    --mount=type=cache,dst=/var/cache,sharing=locked \
+    --mount=type=cache,dst=/var/log,sharing=locked \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/scripts/desktop_extras.sh && \
     ostree container commit
