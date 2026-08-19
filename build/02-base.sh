@@ -56,9 +56,9 @@ dnf5 -y install \
     NetworkManager-openconnect 
 
 # Install howdy
-dnf5 -y copr enable principis/howdy-beta
+dnf5 -y copr enable starfish/howdy-beta
 dnf5 -y install howdy
-dnf5 -y copr disable principis/howdy-beta
+dnf5 -y copr disable starfish/howdy-beta
 
 # Install yazi
 dnf5 -y copr enable lihaohong/yazi
