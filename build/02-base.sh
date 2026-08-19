@@ -68,7 +68,7 @@ dnf5 -y install \
 
 cd /tmp
 git clone https://github.com/jibsta210/svp7500-camera-fix-pack
-sh svp7500-camera-fix-pack/install.sh --howdy-only
+sh svp7500-camera-fix-pack/install.sh --howdy-only --force
 
 # Install yazi
 dnf5 -y copr enable lihaohong/yazi
