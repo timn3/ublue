@@ -59,6 +59,8 @@ dnf5 -y install \
 dnf5 -y copr enable starfish/howdy-beta
 dnf5 -y install howdy
 dnf5 -y copr disable starfish/howdy-beta
+mkdir -p /usr/lib/howdy
+ln -s /usr/lib/python3.14/site-packages/howdy/recorders /usr/lib/howdy/recorders
 dnf5 -y install \
     dkms \
     kernel-devel \
