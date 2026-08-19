@@ -3,14 +3,12 @@ set -ouex pipefail
 
 ### Install programs
 dnf5 install -y \
-    chezmoi \
-    fuse-libs \
-    keepassxc \
-    libcamera-tools \
-    libcamera-qcam \
+    glycin-gtk4-libs \
+    glycin-libs \
+    glycin-loaders \
+    glycin-thumbnailer \
+    kde-connect \
     pinta \
-    powertop \
-    powerstat \
     solaar \
     solaar-udev \
     steam \
@@ -31,11 +29,10 @@ dnf5 install -y \
     vlc-plugins-base \
     vlc-plugins-extra \
     vlc-plugins-freeworld \
-    vlc-plugins-video-out \
-    glycin-gtk4-libs \
-    glycin-loaders \
-    glycin-libs \
-    glycin-thumbnailer
+    vlc-plugins-video-out
+
+# Install netbird
+sh /ctx/build/scripts/install-netbird.sh
 
 # Install Gnome Apps
 dnf5 install -y \
@@ -62,20 +59,25 @@ dnf5 -y install ungoogled-chromium
 dnf5 -y copr disable wojnilowicz/ungoogled-chromium 
 rm /etc/yum.repos.d/google-chrome.repo
 
-### TODO handle python dependency
-# dnf5 -y copr enable principis/howdy-beta
-# dnf5 -y install howdy
-# dnf5 -y copr disable principis/howdy-beta
 
-### Install flatpaks
-## Switch to flatpak-preinstall when available
-if [[ "$(rpm -E %fedora)" -ge "44" || "$(flatpak --version | awk '{ print $2 }' | awk -F . '{ print $2 }')" -ge "17" ]]; then
+# Install vs code
+# sh /ctx/build/scripts/install-vscode.sh
 
-    flatpak preinstall --assumeyes --noninteractive /ctx/flatpaks/*.preinstall
-else
-    # Add flatpak list
-    install -Dm0644 -t /usr/share/flatpak /ctx/flatpaks/*.txt
 
-    # Enable service for automatic flatpak install
-    systemctl --global enable flatpak-user-install.service
-fi
+### Install Yubikey tools
+dnf5 install -y \
+    libfido2-devel \
+    pam-u2f \
+    pamu2fcfg \
+    ykpers \
+    yubikey-manager \
+    yubikey-manager-qt
+
+# Install howdy
+# TODO Solve dependency issues
+# sh /ctx/scripts/install_scripts/install-howdy.sh
+
+
+# Install super prod
+# sh /ctx/scripts/install_scripts/install-superprod.sh
+

@@ -1,8 +1,28 @@
-[Flatpak Preinstall org.signal.Signal]
+[Flatpak Preinstall com.bitwarden.desktop]
 CollectionID=org.flathub.Stable
 Install=true
 
-[Flatpak Preinstall com.spotify.Client]
+[Flatpak Preinstall com.calibre_ebook.calibre]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.discordapp.Discord]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.getpostman.Postman]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.github.tchx84.Flatseal]
+CollectionID=org.fedoraproject.Stable
+Install=true
+
+[Flatpak Preinstall com.github.wwmm.easyeffects]
+CollectionID=org.fedoraproject.Stable
+Install=true
+
+[Flatpak Preinstall com.jgraph.drawio.desktop]
 CollectionID=org.flathub.Stable
 Install=true
 
@@ -10,11 +30,27 @@ Install=true
 CollectionID=org.flathub.Stable
 Install=true
 
+[Flatpak Preinstall com.rustdesk.RustDesk]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.spotify.Client]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall com.super_productivity.SuperProductivity]
+CollectionID=org.flathub.Stable
+Install=true
+
+[Flatpak Preinstall im.riot.Riot]
+CollectionID=org.fedoraproject.Stable
+Install=true
+
 [Flatpak Preinstall io.missioncenter.MissionCenter]
 CollectionID=org.flathub.Stable
 Install=true
 
-[Flatpak Preinstall com.jgraph.drawio.desktop]
+[Flatpak Preinstall io.podman_desktop.PodmanDesktop]
 CollectionID=org.flathub.Stable
 Install=true
 
@@ -26,14 +62,10 @@ Install=true
 CollectionID=org.flathub.Stable
 Install=true
 
+[Flatpak Preinstall org.signal.Signal]
+CollectionID=org.flathub.Stable
+Install=true
+
 [Flatpak Preinstall page.tesk.Refine]
-CollectionID=org.flathub.Stable
-Install=true
-
-[Flatpak Preinstall com.getpostman.Postman]
-CollectionID=org.flathub.Stable
-Install=true
-
-[Flatpak Preinstall com.rustdesk.RustDesk]
 CollectionID=org.flathub.Stable
 Install=true
