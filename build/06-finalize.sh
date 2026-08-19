@@ -9,9 +9,6 @@ rm /etc/yum.repos.d/terra.repo
 ### Remove fedora startpage
 rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-prefs.js
 
-### Allow GSConnect to connect through firewall
-firewall-cmd --permanent --zone=public --add-service=kdeconnect
-
 ### Enable services
 # Disable NetworkManager-wait-online for faster (re-)boot
 systemctl disable NetworkManager-wait-online.service
