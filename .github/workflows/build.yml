@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - transition
     paths-ignore:
       - '**/README.md'
   workflow_dispatch:
