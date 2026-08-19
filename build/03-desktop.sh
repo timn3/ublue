@@ -73,11 +73,3 @@ dnf5 install -y \
     yubikey-manager \
     yubikey-manager-qt
 
-# Install howdy
-# TODO Solve dependency issues
-# sh /ctx/scripts/install_scripts/install-howdy.sh
-
-
-# Install super prod
-# sh /ctx/scripts/install_scripts/install-superprod.sh
-

@@ -59,6 +59,16 @@ dnf5 -y install \
 dnf5 -y copr enable starfish/howdy-beta
 dnf5 -y install howdy
 dnf5 -y copr disable starfish/howdy-beta
+dnf5 -y install \
+    dkms \
+    kernel-devel \
+    v4l-utils \
+    libcamera \
+    pipewire-plugin-libcamera
+
+cd /tmp
+git clone https://github.com/jibsta210/svp7500-camera-fix-pack
+sh svp7500-camera-fix-pack/install.sh --howdy-only
 
 # Install yazi
 dnf5 -y copr enable lihaohong/yazi
