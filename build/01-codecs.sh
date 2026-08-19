@@ -1,21 +1,6 @@
 #!/usr/bin/sh
 set -ouex pipefail
 
-### Copy custom system files
-rsync -rvK /ctx/system_files/ /
-
-### Install packages
-# Activate non-free rpmfusion repos
-dnf5 -y install \
-    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-dnf5 -y install dnf-plugins-core
-dnf5 -y check-update
-dnf5 -y upgrade
-
-### Add Terra
-dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
-
 ### Install codecs
 dnf5 -y install \
         rpmfusion-free-release \
