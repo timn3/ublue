@@ -1,0 +1,81 @@
+# disk_config/iso.toml
+#
+# Consumed by `just build-iso` (see Justfile's _build-bib recipe), which runs
+# bootc-image-builder with --type iso against your local
+# localhost/ublue:latest image and mounts this file as /config.toml.
+#
+# This produces an Anaconda-based installer ISO that:
+#   1. Partitions the disk with an unattended kickstart (GPT, ESP, /boot, LUKS2 root)
+#   2. Switches the installed system to pull ghcr.io/timn3/ublue:latest
+#   3. Enrolls the TPM2 chip as an automatic LUKS unlock factor, bound to the
+#      Secure Boot policy (PCR 7) and boot loader/kernel measurements (PCR 11)
+#   4. Keeps the passphrase you set below as the permanent fallback/secondary
+#      unlock method (used if the TPM state changes, e.g. after enrolling or
+#      changing the Secure Boot key, or if the TPM is unavailable)
+#
+# ┌───────────────────────────────────────────────────────────────────────┐
+# │ SECURITY NOTE                                                         │
+# │ Do not leave INSTALL_TIME_PASSPHRASE below as a real secret in a      │
+# │ public repo. Two safe options:                                        │
+# │   a) Keep it as a throwaway value here, then immediately after first  │
+# │      boot run: sudo cryptsetup luksChangeKey /dev/<partition>         │
+# │      to set your real permanent passphrase.                          │
+# │   b) Template this file at build time (e.g. envsubst) from a          │
+# │      passphrase kept in a local .env file or CI secret, never         │
+# │      committed to git.                                                │
+# └───────────────────────────────────────────────────────────────────────┘
+
+[customizations.installer.kickstart]
+contents = """
+text
+lang en_US.UTF-8
+keyboard us
+timezone Etc/UTC --utc
+network --bootproto=dhcp --activate
+
+# --- Partitioning -----------------------------------------------------
+# GPT disk, standard ESP + /boot, LUKS2-encrypted root.
+# The passphrase here becomes your permanent secondary/fallback unlock
+# method once %post finishes (change it post-install, see note above).
+zerombr
+clearpart --all --initlabel --disklabel=gpt
+autopart --type=plain --fstype=ext4 --encrypted --passphrase=INSTALL_TIME_PASSPHRASE
+
+# No local user is created here — Bluefin/ublue-style images normally
+# handle user setup on first boot. Remove --lock and add a user/password
+# stanza here if your image does not do first-boot user creation.
+rootpw --lock
+firstboot --disable
+reboot
+
+%post --erroronfail --log=/var/log/anaconda/post-install.log
+set -euo pipefail
+
+echo "==> Switching to ghcr.io/timn3/ublue:latest"
+bootc switch --mutate-in-place --transport registry \
+    --enforce-container-sigpolicy \
+    ghcr.io/timn3/ublue:latest
+
+echo "==> Locating LUKS root device"
+LUKS_DEV="$(blkid --match-token TYPE=crypto_LUKS --output device | head -n1)"
+
+if [ -n "${LUKS_DEV}" ]; then
+    echo "==> Enrolling TPM2 as an automatic unlock factor on ${LUKS_DEV}"
+    # PCR 7  = Secure Boot policy/state
+    # PCR 11 = kernel/boot loader (UKI) measurements
+    # If a future firmware/Secure Boot key change breaks TPM2 unlock,
+    # the passphrase set above still works as a fallback.
+    env PASSWORD=INSTALL_TIME_PASSPHRASE \
+        systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7+11 "${LUKS_DEV}"
+else
+    echo "!! No LUKS device found, skipping TPM2 enrollment" >&2
+fi
+%end
+"""
+
+[customizations.installer.modules]
+# Disable the interactive GUI panels we've already configured via kickstart,
+# keep the rest of Anaconda's default (mostly automated) module set.
+disable = [
+  "org.fedoraproject.Anaconda.Modules.Users",
+]
