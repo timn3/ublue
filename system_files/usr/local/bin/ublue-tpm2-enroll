@@ -68,5 +68,47 @@ echo
 systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 "${LUKS_DEV}"
 
 echo
-echo "Done. TPM2 will now unlock this disk automatically at boot."
+echo "TPM2 enrolled. This disk will now unlock automatically at boot."
 echo "Your original passphrase still works if the TPM path ever fails."
+
+# --- Recovery key -------------------------------------------------------
+# A TPM2-bound slot can stop working (firmware update, motherboard swap,
+# Secure Boot key rotation). Generate a dedicated recovery keyslot now so
+# there's a way in that doesn't depend on remembering the Anaconda
+# passphrase. This will prompt for your existing passphrase again to
+# authorize the new keyslot — that's expected, not an error.
+echo "Generating a recovery key (you'll be asked for your passphrase again"
+echo "to authorize it)..."
+echo
+
+RECOVERY_KEY=$(systemd-cryptenroll --recovery-key "${LUKS_DEV}" 2>&1 | tee /dev/stderr \
+    | grep -oP '^[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}$' || true)
+
+if [ -z "${RECOVERY_KEY}" ]; then
+    echo
+    echo "!! Could not capture the recovery key from systemd-cryptenroll's" >&2
+    echo "!! output (format may have changed). A recovery keyslot was likely" >&2
+    echo "!! still added — run 'cryptsetup luksDump ${LUKS_DEV}' to check," >&2
+    echo "!! and note the key down manually from the output above." >&2
+    exit 1
+fi
+
+RECOVERY_DIR="/root/.luks-recovery"
+RECOVERY_FILE="${RECOVERY_DIR}/recovery-key-$(date +%Y%m%d).txt"
+mkdir -p "${RECOVERY_DIR}"
+umask 077
+echo "${RECOVERY_KEY}" > "${RECOVERY_FILE}"
+
+MSG="LUKS recovery key for ${LUKS_DEV} saved to ${RECOVERY_FILE} — copy it off this machine now (password manager or printed copy). It will not be shown again by this script."
+echo
+echo "=========================================================================="
+echo "${MSG}"
+echo "=========================================================================="
+systemd-cat -p warning -t tpm2-enroll <<< "${MSG}"
+
+echo
+echo "Reminder: ${RECOVERY_FILE} is only a local, temporary copy. It lives on"
+echo "the same encrypted disk it protects — if you can't unlock the disk by"
+echo "any other means, you can't read this file either. Move the key"
+echo "somewhere off-machine, then consider deleting the local copy:"
+echo "  sudo shred -u ${RECOVERY_FILE}"
