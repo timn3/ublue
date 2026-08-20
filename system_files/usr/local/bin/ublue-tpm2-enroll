@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# ublue-tpm2-enroll: enrolls this machine's TPM2 chip as an automatic
+# unlock factor for the LUKS-encrypted root filesystem, on top of the
+# passphrase you set in Anaconda at install time.
+#
+# Run manually, once, after first boot:
+#   sudo ublue-tpm2-enroll
+#
+# Your Anaconda passphrase remains a working fallback afterwards — this
+# only ADDS a keyslot, it does not remove or change the existing one.
+set -euo pipefail
+
+### Check if running as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Run this with sudo: sudo ublue-tpm2-enroll" >&2
+    exit 1
+fi
+
+### Check if systemd-cryptenroll is available
+if ! command -v systemd-cryptenroll >/dev/null 2>&1; then
+    echo "systemd-cryptenroll not found on this system." >&2
+    exit 1
+fi
+
+### Check if LUKS device is present
+mapfile -t LUKS_DEVS < <(blkid --match-token TYPE=crypto_LUKS --output device)
+
+if [ "${#LUKS_DEVS[@]}" -eq 0 ]; then
+    echo "No LUKS device found. Is your root filesystem encrypted?" >&2
+    exit 1
+fi
+
+### Handle multiple LUKS devices
+if [ "${#LUKS_DEVS[@]}" -gt 1 ]; then
+    echo "Multiple LUKS devices found:"
+    printf '  %s\n' "${LUKS_DEVS[@]}"
+    echo "Re-run as: sudo ublue-tpm2-enroll <device>"
+    if [ $# -eq 0 ]; then
+        exit 1
+    fi
+    LUKS_DEV="$1"
+else
+    LUKS_DEV="${1:-${LUKS_DEVS[0]}}"
+fi
+
+echo "Target LUKS device: ${LUKS_DEV}"
+
+### Check if TPM2 is already enrolled
+if cryptsetup luksDump "${LUKS_DEV}" | grep -q "systemd-tpm2"; then
+    echo "TPM2 is already enrolled on this device. Nothing to do."
+    exit 0
+fi
+
+echo "You'll be prompted for your existing LUKS passphrase to authorize"
+echo "enrollment (the one you set in Anaconda during install)."
+echo
+
+# PCR 7  = Secure Boot policy/state
+# PCR 11 = kernel / boot loader (UKI) measurements
+# Binding to these means TPM2 auto-unlock breaks (falls back to your
+# passphrase) if Secure Boot state or the boot chain changes unexpectedly —
+# that's the intended tamper-evidence behavior, not a bug.
+systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7+11 "${LUKS_DEV}"
+
+echo
+echo "Done. TPM2 will now unlock this disk automatically at boot."
+echo "Your original passphrase still works if the TPM path ever fails."
