@@ -61,7 +61,7 @@ rm /etc/yum.repos.d/google-chrome.repo
 
 
 # Install vs code
-# sh /ctx/build/scripts/install-vscode.sh
+sh /ctx/build/scripts/install-vscode.sh
 
 
 ### Install Yubikey tools
