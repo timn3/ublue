@@ -55,12 +55,17 @@ echo "You'll be prompted for your existing LUKS passphrase to authorize"
 echo "enrollment (the one you set in Anaconda during install)."
 echo
 
-# PCR 7  = Secure Boot policy/state
-# PCR 11 = kernel / boot loader (UKI) measurements
-# Binding to these means TPM2 auto-unlock breaks (falls back to your
-# passphrase) if Secure Boot state or the boot chain changes unexpectedly —
-# that's the intended tamper-evidence behavior, not a bug.
-systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7+11 "${LUKS_DEV}"
+# PCR 7 = Secure Boot policy/state (measured by UEFI firmware itself:
+# Secure Boot on/off plus the certificate chain used to validate shim,
+# GRUB, and the kernel).
+#
+# Deliberately NOT binding to PCR 8/9 (kernel/initrd/cmdline) or PCR 11
+# (only relevant to systemd-boot UKI setups, which this image does not
+# use) — those change on every `bootc upgrade` and would break TPM2
+# auto-unlock after every single OS update, forcing constant
+# re-enrollment. PCR 7 stays stable across upgrades and only changes if
+# Secure Boot state or your trusted signing keys actually change.
+systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 "${LUKS_DEV}"
 
 echo
 echo "Done. TPM2 will now unlock this disk automatically at boot."
