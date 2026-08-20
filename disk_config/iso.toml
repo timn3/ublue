@@ -45,7 +45,6 @@ autopart --type=btrfs --encrypted
 # handle user setup on first boot. Remove --lock and add a user/password
 # stanza here if your image does not do first-boot user creation.
 rootpw --lock
-firstboot --disable
 reboot
 
 %post --erroronfail --log=/var/log/anaconda/post-install.log
