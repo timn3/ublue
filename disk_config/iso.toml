@@ -39,7 +39,7 @@ network --bootproto=dhcp --activate
 # method once %post finishes (change it post-install, see note above).
 zerombr
 clearpart --all --initlabel --disklabel=gpt
-autopart --type=plain --fstype=ext4 --encrypted --passphrase=INSTALL_TIME_PASSPHRASE
+autopart --type=btrfs --encrypted
 
 # No local user is created here — Bluefin/ublue-style images normally
 # handle user setup on first boot. Remove --lock and add a user/password
@@ -55,21 +55,6 @@ echo "==> Switching to ghcr.io/timn3/ublue:latest"
 bootc switch --mutate-in-place --transport registry \
     --enforce-container-sigpolicy \
     ghcr.io/timn3/ublue:latest
-
-echo "==> Locating LUKS root device"
-LUKS_DEV="$(blkid --match-token TYPE=crypto_LUKS --output device | head -n1)"
-
-if [ -n "${LUKS_DEV}" ]; then
-    echo "==> Enrolling TPM2 as an automatic unlock factor on ${LUKS_DEV}"
-    # PCR 7  = Secure Boot policy/state
-    # PCR 11 = kernel/boot loader (UKI) measurements
-    # If a future firmware/Secure Boot key change breaks TPM2 unlock,
-    # the passphrase set above still works as a fallback.
-    env PASSWORD=INSTALL_TIME_PASSPHRASE \
-        systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7+11 "${LUKS_DEV}"
-else
-    echo "!! No LUKS device found, skipping TPM2 enrollment" >&2
-fi
 %end
 """
 
@@ -77,5 +62,5 @@ fi
 # Disable the interactive GUI panels we've already configured via kickstart,
 # keep the rest of Anaconda's default (mostly automated) module set.
 disable = [
-  "org.fedoraproject.Anaconda.Modules.Users",
+  "org.fedoraproject.Anaconda.Modules.Subscription",
 ]
