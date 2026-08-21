@@ -48,6 +48,9 @@ dnf5 install -y \
     baobab \
     loupe
 
+dnf5 remove -y \
+    gnome-software
+
 # Install Gnome Extensions
 dnf5 install -y \
     gnome-shell-extension-appindicator \
