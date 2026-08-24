@@ -4,7 +4,6 @@ ARG SOURCE_IMAGE="fedora-silverblue"
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
 COPY /build /build
-COPY /flatpaks /flatpaks
 COPY /system_files /system_files
 COPY /dotfiles /dotfiles
 
