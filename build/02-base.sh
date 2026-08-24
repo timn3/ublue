@@ -28,7 +28,6 @@ dnf5 install -y \
     libcamera-tools \
     lm_sensors \
     make \
-    mapfile \
     nautilus-python \
     neovim \
     nmtui \

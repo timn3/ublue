@@ -23,7 +23,10 @@ if ! command -v systemd-cryptenroll >/dev/null 2>&1; then
 fi
 
 ### Check if LUKS device is present
-mapfile -t LUKS_DEVS < <(blkid --match-token TYPE=crypto_LUKS --output device)
+LUKS_DEVS=()
+while IFS= read -r dev; do
+    [ -n "${dev}" ] && LUKS_DEVS+=("${dev}")
+done < <(blkid --match-token TYPE=crypto_LUKS --output device)
 
 if [ "${#LUKS_DEVS[@]}" -eq 0 ]; then
     echo "No LUKS device found. Is your root filesystem encrypted?" >&2
