@@ -15,4 +15,4 @@ systemctl disable NetworkManager-wait-online.service
 # Enable automatic update service
 systemctl enable bootc-check-update.timer
 # Enable syncthing autostart
-systemctl enable --global syncthing.service
+systemctl enable --global syncthing.timer
