@@ -1,0 +1,56 @@
+[Flatpak Preinstall io.github.kolunmi.Bazaar]
+Install=true
+
+[Flatpak Preinstall com.bitwarden.desktop]
+Install=true
+
+[Flatpak Preinstall com.calibre_ebook.calibre]
+Install=true
+
+[Flatpak Preinstall com.discordapp.Discord]
+Install=true
+
+[Flatpak Preinstall com.getpostman.Postman]
+Install=true
+
+[Flatpak Preinstall com.github.tchx84.Flatseal]
+Install=true
+
+[Flatpak Preinstall com.github.wwmm.easyeffects]
+Install=true
+
+[Flatpak Preinstall com.jgraph.drawio.desktop]
+Install=true
+
+[Flatpak Preinstall com.mattjakeman.ExtensionManager]
+Install=true
+
+[Flatpak Preinstall com.rustdesk.RustDesk]
+Install=true
+
+[Flatpak Preinstall com.spotify.Client]
+Install=true
+
+[Flatpak Preinstall com.super_productivity.SuperProductivity]
+Install=true
+
+[Flatpak Preinstall im.riot.Riot]
+Install=true
+
+[Flatpak Preinstall io.missioncenter.MissionCenter]
+Install=true
+
+[Flatpak Preinstall io.podman_desktop.PodmanDesktop]
+Install=true
+
+[Flatpak Preinstall md.obsidian.Obsidian]
+Install=true
+
+[Flatpak Preinstall org.onlyoffice.desktopeditors]
+Install=true
+
+[Flatpak Preinstall org.signal.Signal]
+Install=true
+
+[Flatpak Preinstall page.tesk.Refine]
+Install=true

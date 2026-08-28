@@ -5,16 +5,12 @@ Experimentation lab and testing ground based on Fedora Bootc.
 
 ## Installation
 
-### Rebasing from Fedora Silverblue
+Install Ublue ISO using the provided Anaconda installer
 
-Install Fedora Silverblue 42.
-Once booted, run:
-
-```
-bootc switch ghcr.io/timn3/ublue:latest
-```
-
-Then reboot.
+### First boot
+After installing, enroll your TPM2 chip for automatic disk unlock:
+    `sudo ublue-tpm2-enroll`
+the Anaconda passphrase remains a working fallback.
 
 ## References
 I used the following sources:

@@ -22,6 +22,7 @@ dnf5 install -y \
     git-delta \
     htop \
     jq \
+    just \
     kanshi \
     libcamera-qcam \
     libcamera-tools \

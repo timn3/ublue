@@ -1,3 +1,7 @@
+[Flatpak Preinstall io.github.kolunmi.Bazaar]
+CollectionID=org.flathub.Stable
+Install=true
+
 [Flatpak Preinstall com.bitwarden.desktop]
 CollectionID=org.flathub.Stable
 Install=true

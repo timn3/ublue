@@ -38,3 +38,13 @@ dnf5 -y copr disable killcrb/ashell
 dnf5 -y copr enable quadratech188/vicinae
 dnf5 -y install vicinae
 dnf5 -y copr disable quadratech188/vicinae
+
+# hyprpm dependencies
+dnf5 -y install \
+    cmake \
+    g++ \
+    gcc \
+    cpio \
+    pkgconfig \
+    mesa-libGLES-devel \
+    mesa-libEGL-devel

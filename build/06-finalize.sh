@@ -14,3 +14,5 @@ rm -f /usr/lib64/firefox/browser/defaults/preferences/firefox-redhat-default-pre
 systemctl disable NetworkManager-wait-online.service
 # Enable automatic update service
 systemctl enable bootc-check-update.timer
+# Enable syncthing autostart
+systemctl enable --global syncthing.timer

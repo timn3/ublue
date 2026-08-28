@@ -46,7 +46,11 @@ dnf5 install -y \
     gnome-text-editor \
     meld \
     baobab \
-    loupe
+    loupe \
+    seahorse
+
+dnf5 remove -y \
+    gnome-software
 
 # Install Gnome Extensions
 dnf5 install -y \

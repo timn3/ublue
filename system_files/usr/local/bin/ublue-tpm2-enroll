@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# ublue-tpm2-enroll: enrolls this machine's TPM2 chip as an automatic
+# unlock factor for the LUKS-encrypted root filesystem, on top of the
+# passphrase you set in Anaconda at install time.
+#
+# Run manually, once, after first boot:
+#   sudo ublue-tpm2-enroll
+#
+# Your Anaconda passphrase remains a working fallback afterwards — this
+# only ADDS a keyslot, it does not remove or change the existing one.
+set -euo pipefail
+
+### Check if running as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Run this with sudo: sudo ublue-tpm2-enroll" >&2
+    exit 1
+fi
+
+### Check if systemd-cryptenroll is available
+if ! command -v systemd-cryptenroll >/dev/null 2>&1; then
+    echo "systemd-cryptenroll not found on this system." >&2
+    exit 1
+fi
+
+### Check if LUKS device is present
+LUKS_DEVS=()
+while IFS= read -r dev; do
+    [ -n "${dev}" ] && LUKS_DEVS+=("${dev}")
+done < <(blkid --match-token TYPE=crypto_LUKS --output device)
+
+if [ "${#LUKS_DEVS[@]}" -eq 0 ]; then
+    echo "No LUKS device found. Is your root filesystem encrypted?" >&2
+    exit 1
+fi
+
+### Handle multiple LUKS devices
+if [ "${#LUKS_DEVS[@]}" -gt 1 ]; then
+    echo "Multiple LUKS devices found:"
+    printf '  %s\n' "${LUKS_DEVS[@]}"
+    echo "Re-run as: sudo ublue-tpm2-enroll <device>"
+    if [ $# -eq 0 ]; then
+        exit 1
+    fi
+    LUKS_DEV="$1"
+else
+    LUKS_DEV="${1:-${LUKS_DEVS[0]}}"
+fi
+
+echo "Target LUKS device: ${LUKS_DEV}"
+
+### Check if TPM2 is already enrolled
+if cryptsetup luksDump "${LUKS_DEV}" | grep -q "systemd-tpm2"; then
+    echo "TPM2 is already enrolled on this device. Nothing to do."
+    exit 0
+fi
+
+echo "You'll be prompted for your existing LUKS passphrase to authorize"
+echo "enrollment (the one you set in Anaconda during install)."
+echo
+
+# PCR 7 = Secure Boot policy/state (measured by UEFI firmware itself:
+# Secure Boot on/off plus the certificate chain used to validate shim,
+# GRUB, and the kernel).
+#
+# Deliberately NOT binding to PCR 8/9 (kernel/initrd/cmdline) or PCR 11
+# (only relevant to systemd-boot UKI setups, which this image does not
+# use) — those change on every `bootc upgrade` and would break TPM2
+# auto-unlock after every single OS update, forcing constant
+# re-enrollment. PCR 7 stays stable across upgrades and only changes if
+# Secure Boot state or your trusted signing keys actually change.
+systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 "${LUKS_DEV}"
+
+echo
+echo "TPM2 enrolled. This disk will now unlock automatically at boot."
+echo "Your original passphrase still works if the TPM path ever fails."
+
+# --- Recovery key -------------------------------------------------------
+# A TPM2-bound slot can stop working (firmware update, motherboard swap,
+# Secure Boot key rotation). Generate a dedicated recovery keyslot now so
+# there's a way in that doesn't depend on remembering the Anaconda
+# passphrase. This will prompt for your existing passphrase again to
+# authorize the new keyslot — that's expected, not an error.
+echo "Generating a recovery key (you'll be asked for your passphrase again"
+echo "to authorize it)..."
+echo
+
+RECOVERY_KEY=$(systemd-cryptenroll --recovery-key "${LUKS_DEV}" 2>&1 | tee /dev/stderr \
+    | grep -oP '^[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}-[0-9]{6}$' || true)
+
+if [ -z "${RECOVERY_KEY}" ]; then
+    echo
+    echo "!! Could not capture the recovery key from systemd-cryptenroll's" >&2
+    echo "!! output (format may have changed). A recovery keyslot was likely" >&2
+    echo "!! still added — run 'cryptsetup luksDump ${LUKS_DEV}' to check," >&2
+    echo "!! and note the key down manually from the output above." >&2
+    exit 1
+fi
+
+RECOVERY_DIR="/root/.luks-recovery"
+RECOVERY_FILE="${RECOVERY_DIR}/recovery-key-$(date +%Y%m%d).txt"
+mkdir -p "${RECOVERY_DIR}"
+umask 077
+echo "${RECOVERY_KEY}" > "${RECOVERY_FILE}"
+
+MSG="LUKS recovery key for ${LUKS_DEV} saved to ${RECOVERY_FILE} — copy it off this machine now (password manager or printed copy). It will not be shown again by this script."
+echo
+echo "=========================================================================="
+echo "${MSG}"
+echo "=========================================================================="
+systemd-cat -p warning -t tpm2-enroll <<< "${MSG}"
+
+echo
+echo "Reminder: ${RECOVERY_FILE} is only a local, temporary copy. It lives on"
+echo "the same encrypted disk it protects — if you can't unlock the disk by"
+echo "any other means, you can't read this file either. Move the key"
+echo "somewhere off-machine, then consider deleting the local copy:"
+echo "  sudo shred -u ${RECOVERY_FILE}"
