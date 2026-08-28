@@ -45,4 +45,6 @@ dnf5 -y install \
     g++ \
     gcc \
     cpio \
-    pkgconfig
+    pkgconfig \
+    mesa-libGLES-devel \
+    mesa-libEGL-devel
