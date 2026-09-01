@@ -6,6 +6,7 @@ dnf5 install -y \
     alacritty \
     bat \
     bluetoothctl \
+    blueman \
     brightnessctl \
     btop \
     chezmoi \
