@@ -47,4 +47,5 @@ dnf5 -y install \
     cpio \
     pkgconfig \
     mesa-libGLES-devel \
-    mesa-libEGL-devel
+    mesa-libEGL-devel \
+    glslang
