@@ -48,4 +48,4 @@ dnf5 -y install \
     pkgconfig \
     mesa-libGLES-devel \
     mesa-libEGL-devel \
-    glslang
+    glslang-devel
