@@ -8,7 +8,11 @@ dnf5 install -y \
 
 dnf5 -y copr enable lionheartp/Hyprland
 dnf5 -y install \
+<<<<<<< HEAD
     aquamarine \
+=======
+    aquamarie \
+>>>>>>> e8f3f65add041f7d001ce4ae3b0438a9adb4ebe6
     hyprcursor \
     hyprgraphics \
     hyprland \
