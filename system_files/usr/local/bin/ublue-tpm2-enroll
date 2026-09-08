@@ -50,8 +50,44 @@ echo "Target LUKS device: ${LUKS_DEV}"
 
 ### Check if TPM2 is already enrolled
 if cryptsetup luksDump "${LUKS_DEV}" | grep -q "systemd-tpm2"; then
-    echo "TPM2 is already enrolled on this device. Nothing to do."
-    exit 0
+    echo "TPM2 is already enrolled on this device."
+
+    # Find the keyslot(s) using the tpm2 token. luksDump lists tokens like:
+    #   Tokens:
+    #     0: systemd-tpm2
+    #         Keyslot:    1
+    TPM2_SLOTS=()
+    while IFS= read -r slot; do
+        [ -n "${slot}" ] && TPM2_SLOTS+=("${slot}")
+    done < <(cryptsetup luksDump "${LUKS_DEV}" \
+        | awk '/systemd-tpm2/{f=1} f && /Keyslot:/{print $2; f=0}')
+
+    if [ "${#TPM2_SLOTS[@]}" -eq 0 ]; then
+        echo "Could not determine the TPM2 keyslot from luksDump output." >&2
+        echo "Re-run 'cryptsetup luksDump ${LUKS_DEV}' and inspect manually." >&2
+        exit 1
+    fi
+
+    echo "TPM2 is currently bound to keyslot(s): ${TPM2_SLOTS[*]}"
+    echo
+    echo "This will WIPE the existing TPM2 keyslot(s) and re-enroll a fresh one."
+    echo "Your Anaconda passphrase keyslot is untouched either way."
+    read -r -p "Proceed? [y/N] " REPLY
+    case "${REPLY}" in
+        [yY]|[yY][eE][sS]) ;;
+        *)
+            echo "Aborted. No changes made."
+            exit 0
+            ;;
+    esac
+
+    for slot in "${TPM2_SLOTS[@]}"; do
+        echo "Wiping keyslot ${slot}..."
+        systemd-cryptenroll --wipe-slot="${slot}" "${LUKS_DEV}"
+    done
+
+    echo "Old TPM2 keyslot(s) removed. Proceeding to re-enroll..."
+    echo
 fi
 
 echo "You'll be prompted for your existing LUKS passphrase to authorize"
