@@ -8,6 +8,12 @@
 #
 # Your Anaconda passphrase remains a working fallback afterwards — this
 # only ADDS a keyslot, it does not remove or change the existing one.
+#
+# If TPM2 is already enrolled, running this again will offer to wipe the
+# existing TPM2 keyslot(s) and re-enroll fresh ones (e.g. after a
+# Secure Boot key rotation broke the old binding). It will NOT generate
+# a new recovery key in that case, since one already exists from the
+# original enrollment.
 set -euo pipefail
 
 ### Check if running as root
@@ -49,6 +55,11 @@ fi
 echo "Target LUKS device: ${LUKS_DEV}"
 
 ### Check if TPM2 is already enrolled
+# This flag controls whether we generate a recovery key at the end: only
+# on a genuinely fresh enrollment, never on a wipe-and-re-enroll, since a
+# recovery key from the original enrollment should already exist.
+RE_ENROLLING=0
+
 if cryptsetup luksDump "${LUKS_DEV}" | grep -q "systemd-tpm2"; then
     echo "TPM2 is already enrolled on this device."
 
@@ -71,7 +82,8 @@ if cryptsetup luksDump "${LUKS_DEV}" | grep -q "systemd-tpm2"; then
     echo "TPM2 is currently bound to keyslot(s): ${TPM2_SLOTS[*]}"
     echo
     echo "This will WIPE the existing TPM2 keyslot(s) and re-enroll a fresh one."
-    echo "Your Anaconda passphrase keyslot is untouched either way."
+    echo "Your Anaconda passphrase keyslot is untouched either way, and no new"
+    echo "recovery key will be generated (your existing one still applies)."
     read -r -p "Proceed? [y/N] " REPLY
     case "${REPLY}" in
         [yY]|[yY][eE][sS]) ;;
@@ -88,6 +100,7 @@ if cryptsetup luksDump "${LUKS_DEV}" | grep -q "systemd-tpm2"; then
 
     echo "Old TPM2 keyslot(s) removed. Proceeding to re-enroll..."
     echo
+    RE_ENROLLING=1
 fi
 
 echo "You'll be prompted for your existing LUKS passphrase to authorize"
@@ -111,6 +124,17 @@ echo "TPM2 enrolled. This disk will now unlock automatically at boot."
 echo "Your original passphrase still works if the TPM path ever fails."
 
 # --- Recovery key -------------------------------------------------------
+# Only generate a recovery key on a fresh enrollment. If we just
+# wiped-and-re-enrolled an existing TPM2 binding, a recovery key was
+# already generated (and hopefully saved off-machine) the first time
+# this script ran, so skip it here rather than churning out another one.
+if [ "${RE_ENROLLING}" -eq 1 ]; then
+    echo
+    echo "Skipping recovery key generation (re-enrollment) — your existing"
+    echo "recovery key from the original enrollment is still valid."
+    exit 0
+fi
+
 # A TPM2-bound slot can stop working (firmware update, motherboard swap,
 # Secure Boot key rotation). Generate a dedicated recovery keyslot now so
 # there's a way in that doesn't depend on remembering the Anaconda
