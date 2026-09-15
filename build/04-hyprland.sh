@@ -18,6 +18,7 @@ dnf5 -y install \
     hypridle \
     hyprland-plugins \
     hyprlang \
+    hyprlang-devel \
     hyprlauncher \
     hyprpaper \
     hyprpicker \
