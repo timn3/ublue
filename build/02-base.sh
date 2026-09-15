@@ -32,6 +32,7 @@ dnf5 install -y \
     nautilus-python \
     neovim \
     nmtui \
+    pavucontrol \
     powerstat \
     powertop \
     procs \
