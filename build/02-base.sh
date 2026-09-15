@@ -5,7 +5,6 @@ set -ouex pipefail
 dnf5 install -y \
     alacritty \
     bat \
-    blueberry \
     bluetoothctl \
     blueman \
     brightnessctl \
