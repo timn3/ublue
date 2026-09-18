@@ -11,7 +11,9 @@ dnf5 -y install \
     aquamarine \
     aquamarine-devel \
     hyprcursor \
+    hyprcursor-devel \
     hyprgraphics \
+    hyprgraphics-devel \
     hyprland \
     hyprland-guiutils \
     hyprlock \
@@ -29,6 +31,7 @@ dnf5 -y install \
     hyprsunset \
     hyprsysteminfo \
     hyprutils \
+    hyprutils-devel \
     hyprwayland-scanner
 dnf5 -y copr disable lionheartp/Hyprland 
 
