@@ -32,7 +32,8 @@ dnf5 -y install \
     hyprsysteminfo \
     hyprutils \
     hyprutils-devel \
-    hyprwayland-scanner
+    hyprwayland-scanner \
+    hyprland-protocols-devel
 dnf5 -y copr disable lionheartp/Hyprland 
 
 # Top bar
