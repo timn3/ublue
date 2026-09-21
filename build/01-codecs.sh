@@ -7,7 +7,7 @@ dnf5 -y install \
         rpmfusion-nonfree-release
 
 ### Media codecs
-dnf5 -y group install multimedia
+dnf5 -y --skip-broken group install multimedia
 dnf5 -y swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
 dnf5 -y upgrade @multimedia --setopt='install_weak_deps=False' --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components. Required if you use Gnome Videos and other dependent applications.
 dnf5 -y group install -y sound-and-video # Installs useful Sound and Video complementary packages.
