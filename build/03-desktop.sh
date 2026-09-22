@@ -67,6 +67,9 @@ rm /etc/yum.repos.d/google-chrome.repo
 # Install vs code
 sh /ctx/build/scripts/install-vscode.sh
 
+# Install rust
+sh /ctx/build/scripts/install-rust.sh
+
 
 ### Install Yubikey tools
 dnf5 install -y \
