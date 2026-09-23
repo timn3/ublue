@@ -35,8 +35,8 @@ chmod -R a+rX "${RUSTUP_HOME}" "${CARGO_HOME}"
 echo "==> Writing /etc/profile.d/rust.sh for login shells"
 cat > /etc/profile.d/rust.sh <<'EOF'
 export RUSTUP_HOME=/usr/local/rustup
-export CARGO_HOME=/usr/local/cargo
-export PATH=/usr/local/cargo/bin:$PATH
+export CARGO_HOME="$HOME/.cargo"
+export PATH="$HOME/.cargo/bin:/usr/local/cargo/bin:$PATH"
 EOF
 chmod 644 /etc/profile.d/rust.sh
 
