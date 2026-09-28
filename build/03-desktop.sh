@@ -7,6 +7,7 @@ dnf5 install -y \
     glycin-libs \
     glycin-loaders \
     glycin-thumbnailer \
+    helix \
     kde-connect \
     pinta \
     solaar \
