@@ -44,6 +44,7 @@ dnf5 install -y \
     gnome-clocks \
     gnome-firmware \
     gnome-font-viewer \
+    gnome-keyring \
     gnome-text-editor \
     meld \
     baobab \
