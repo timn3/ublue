@@ -27,6 +27,7 @@ dnf5 install -y \
     kanshi \
     libcamera-qcam \
     libcamera-tools \
+    libcamera-gstreamer \
     lm_sensors \
     make \
     nautilus-python \
