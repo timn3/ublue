@@ -1,6 +1,9 @@
 #!/usr/bin/sh
 set -ouex pipefail
 
+# Install bitwarden
+sh /ctx/build/scripts/install-bitwarden.sh
+
 ### Install flatpaks
 ## Switch to flatpak-preinstall when available
 if [[ "$(rpm -E %fedora)" -ge "44" || "$(flatpak --version | awk '{ print $2 }' | awk -F . '{ print $2 }')" -ge "17" ]]; then
