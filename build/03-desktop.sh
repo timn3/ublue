@@ -12,7 +12,6 @@ dnf5 install -y \
     pinta \
     solaar \
     solaar-udev \
-    steam \
     syncthing \
     thunderbird \
     vlc \
@@ -31,6 +30,9 @@ dnf5 install -y \
     vlc-plugins-extra \
     vlc-plugins-freeworld \
     vlc-plugins-video-out
+
+dnf5 install -y --allowerasing \
+    steam \
 
 # Install netbird
 sh /ctx/build/scripts/install-netbird.sh
