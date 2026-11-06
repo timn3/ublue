@@ -1,9 +1,6 @@
 [Flatpak Preinstall io.github.kolunmi.Bazaar]
 Install=true
 
-[Flatpak Preinstall com.bitwarden.desktop]
-Install=true
-
 [Flatpak Preinstall com.calibre_ebook.calibre]
 Install=true
 
