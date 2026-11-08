@@ -10,6 +10,8 @@ dnf5 install -y \
     helix \
     kde-connect \
     pinta \
+    podman \
+    podman-compose \
     solaar \
     solaar-udev \
     syncthing \
