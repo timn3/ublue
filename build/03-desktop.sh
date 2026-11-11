@@ -39,6 +39,9 @@ dnf5 install -y --allowerasing \
 # Install netbird
 sh /ctx/build/scripts/install-netbird.sh
 
+# Install dcal
+sh /ctx/build/scripts/install-dcal.sh
+
 # Install Gnome Apps
 dnf5 install -y \
     gnome-logs \
