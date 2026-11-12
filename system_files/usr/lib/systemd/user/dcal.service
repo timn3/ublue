@@ -1,0 +1,18 @@
+[Unit]
+Description=Dux Calendar
+Documentation=https://github.com/duxlabs-dev/dux-calendar
+After=graphical-session.target
+PartOf=graphical-session.target
+# With RestartSec=2 the default limit (5 starts per 10s) is never reached, so a persistent failure would restart forever.
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/dcal run --session --hidden
+Restart=on-failure
+RestartSec=2
+Slice=app.slice
+
+[Install]
+WantedBy=graphical-session.target

@@ -14,7 +14,7 @@ make install
 # make install-systemd
 
 echo "==> Installing dcal systemd service"
-install -Dm644 /tmp/dux-calendar/assets/systemd/dcal.service /usr/lib/systemd/user/dcal.service
+# install -Dm644 /tmp/dux-calendar/assets/systemd/dcal.service /usr/lib/systemd/user/dcal.service
 systemctl --global enable dcal
 
 echo "==> Cleaning up build dependencies"
