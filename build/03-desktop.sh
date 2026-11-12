@@ -40,7 +40,10 @@ dnf5 install -y --allowerasing \
 sh /ctx/build/scripts/install-netbird.sh
 
 # Install dcal
-sh /ctx/build/scripts/install-dcal.sh
+# sh /ctx/build/scripts/install-dcal.sh
+dnf5 -y copr enable duxlabs/dux-repo
+dnf5 -y install dux-calendar
+dnf5 -y copr disable duxlabs/dux-repo
 
 # Install Gnome Apps
 dnf5 install -y \
