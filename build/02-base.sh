@@ -26,6 +26,7 @@ dnf5 install -y \
     jq \
     just \
     kanshi \
+    lazygit \
     libcamera-qcam \
     libcamera-tools \
     libcamera-gstreamer \
