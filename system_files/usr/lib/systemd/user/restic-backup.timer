@@ -1,0 +1,11 @@
+[Unit]
+Description=Hourly incremental backup attempt (runs only on AC + trusted network)
+
+[Timer]
+OnBootSec=10min
+OnCalendar=hourly
+RandomizedDelaySec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,46 @@
+# restic-backup configuration (bash syntax)
+# Copy to ~/.config/restic-backup/config and adjust.
+
+# Routes to the SAME repository, tried in order; the first usable one wins.
+# Format: "name|repository|networks"
+#   networks: comma-separated NetworkManager connection names (for Wi-Fi this
+#             is usually the SSID; see `nmcli connection show`). Leave empty
+#             to allow any network.
+# A target is usable when one of its networks is active AND the server is
+# reachable (host/port are derived from the repository URL, including
+# ~/.ssh/config aliases).
+#
+# SFTP needs only SSH on the server. Use a passwordless SSH key (or a Host
+# entry in ~/.ssh/config), because the job runs unattended. Connect once
+# manually per address so the host key is in ~/.ssh/known_hosts.
+TARGETS=(
+    "home|sftp:backup@192.168.1.10:/srv/backups/$(hostname -s)|HomeWiFi,Wired connection 1"
+    "vpn|sftp:backup@100.64.0.5:/srv/backups/$(hostname -s)|"
+)
+# Other repository types also work, e.g.
+#   "home|rest:http://nas.lan:8000/$(hostname -s)|HomeWiFi"
+
+# File containing the repository encryption password (chmod 600).
+# KEEP A COPY SOMEWHERE ELSE: without it the backups cannot be restored.
+RESTIC_PASSWORD_FILE="$HOME/.config/restic-backup/password"
+
+# What to back up
+BACKUP_PATHS=("$HOME")
+
+# One pattern per line (restic --exclude-file syntax)
+EXCLUDE_FILE="$HOME/.config/restic-backup/excludes"
+
+# Don't back up over connections NetworkManager considers metered
+# (phone hotspots etc.)
+SKIP_METERED=true
+
+# Retention, applied every PRUNE_INTERVAL_DAYS. Pruning rewrites data, so
+# only do it on these targets (empty = any target); otherwise it's deferred.
+PRUNE_TARGETS=("home")
+KEEP_HOURLY=24
+KEEP_DAILY=7
+KEEP_WEEKLY=5
+KEEP_MONTHLY=12
+PRUNE_INTERVAL_DAYS=7
+
+NOTIFY_ON_SUCCESS=false

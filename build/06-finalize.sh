@@ -16,3 +16,5 @@ systemctl disable NetworkManager-wait-online.service
 systemctl enable bootc-check-update.timer
 # Enable syncthing autostart
 systemctl enable --global syncthing.timer
+# Enable automatic backups (no-op until ~/.config/restic-backup/config exists)
+systemctl enable --global restic-backup.timer

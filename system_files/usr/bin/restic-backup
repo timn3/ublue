@@ -1,0 +1,263 @@
+#!/usr/bin/env bash
+# Incremental backups with restic, only when on AC power and a backup target
+# (e.g. home LAN or VPN) is usable.
+#
+# Usage:
+#   restic-backup [--target NAME] [command]
+#
+#   (no command)   run a backup if all conditions are met, otherwise skip
+#   --check        only check conditions (exit 0 = a backup would run)
+#   --force        back up now, ignoring AC power, metered and network rules
+#                  (the server must still be reachable)
+#   --init         initialise the remote repository
+#   <restic args>  pass arbitrary args to restic with config loaded,
+#                  e.g. `restic-backup snapshots`
+#
+#   --target NAME  use only the target called NAME
+#
+# Configuration: ${XDG_CONFIG_HOME:-~/.config}/restic-backup/config
+# Example:       /usr/share/restic-backup/config.example
+set -euo pipefail
+
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/restic-backup"
+CONFIG_FILE="$CONFIG_DIR/config"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/restic-backup"
+
+log() { echo "restic-backup: $*" >&2; }
+
+notify() {
+    command -v notify-send >/dev/null 2>&1 || return 0
+    notify-send --app-name="restic-backup" --icon="drive-harddisk" \
+        --urgency="$1" --category="system" "$2" "$3" 2>/dev/null || true
+}
+
+if [[ ! -r "$CONFIG_FILE" ]]; then
+    log "no config at $CONFIG_FILE (see /usr/share/restic-backup/config.example)"
+    exit 1
+fi
+
+# Defaults, overridable in config
+TARGETS=()
+BACKUP_PATHS=("$HOME")
+EXCLUDE_FILE="$CONFIG_DIR/excludes"
+SKIP_METERED=true
+PRUNE_TARGETS=()
+KEEP_HOURLY=24
+KEEP_DAILY=7
+KEEP_WEEKLY=5
+KEEP_MONTHLY=12
+PRUNE_INTERVAL_DAYS=7
+NOTIFY_ON_SUCCESS=false
+# Legacy single-target settings
+ALLOWED_NETWORKS=()
+unset RESTIC_REPOSITORY
+
+# shellcheck source=/dev/null
+source "$CONFIG_FILE"
+
+: "${RESTIC_PASSWORD_FILE:?RESTIC_PASSWORD_FILE must be set in $CONFIG_FILE}"
+export RESTIC_PASSWORD_FILE
+
+# Legacy config: a single RESTIC_REPOSITORY + ALLOWED_NETWORKS
+if ((${#TARGETS[@]} == 0)) && [[ -n "${RESTIC_REPOSITORY:-}" ]]; then
+    TARGETS=("default|$RESTIC_REPOSITORY|$(IFS=,; echo "${ALLOWED_NETWORKS[*]}")")
+fi
+if ((${#TARGETS[@]} == 0)); then
+    log "no TARGETS configured in $CONFIG_FILE"
+    exit 1
+fi
+
+# ── Conditions ──────────────────────────────────────────────────────────────
+
+on_ac_power() {
+    local found_supply=false s
+    for s in /sys/class/power_supply/*; do
+        [[ -r "$s/type" ]] || continue
+        case "$(<"$s/type")" in
+            Mains|USB)
+                found_supply=true
+                [[ -r "$s/online" && "$(<"$s/online")" == 1 ]] && return 0
+                ;;
+        esac
+    done
+    # No AC adapters known (e.g. desktop): treat as plugged in
+    [[ "$found_supply" == false ]]
+}
+
+is_metered() {
+    # NMMetered: 0 unknown, 1 yes, 2 no, 3 guess-yes, 4 guess-no
+    local m
+    m="$(busctl --system get-property org.freedesktop.NetworkManager \
+        /org/freedesktop/NetworkManager org.freedesktop.NetworkManager Metered \
+        2>/dev/null | awk '{print $2}')" || return 1
+    [[ "$m" == 1 || "$m" == 3 ]]
+}
+
+# True if one of the comma-separated NetworkManager connection names is active
+# (an empty list matches any network).
+on_network() {
+    local nets="$1" active net
+    [[ -z "$nets" ]] && return 0
+    active="$(nmcli -t -g NAME connection show --active 2>/dev/null || true)"
+    IFS=',' read -ra nets <<<"$nets"
+    for net in "${nets[@]}"; do
+        net="${net#"${net%%[![:space:]]*}"}"   # trim leading whitespace
+        net="${net%"${net##*[![:space:]]}"}"   # trim trailing whitespace
+        [[ -n "$net" ]] && grep -Fxq -- "$net" <<<"$active" && return 0
+    done
+    return 1
+}
+
+# Print "host port" for a repository URL; returns 1 for backends where
+# reachability can't be checked this way (s3, b2, local, ...).
+repo_endpoint() {
+    local repo="$1" hp host port="" scheme cfg
+    case "$repo" in
+        sftp://*)                 # sftp://[user@]host[:port]//path
+            hp="${repo#sftp://}"; hp="${hp%%/*}"; hp="${hp##*@}"
+            host="${hp%%:*}"; [[ "$hp" == *:* ]] && port="${hp##*:}"
+            ;;
+        sftp:*)                   # sftp:[user@]host:/path
+            hp="${repo#sftp:}"; hp="${hp%%:*}"; host="${hp##*@}"
+            ;;
+        rest:http://*|rest:https://*)
+            hp="${repo#rest:}"; scheme="${hp%%://*}"
+            hp="${hp#*://}"; hp="${hp%%/*}"; hp="${hp##*@}"
+            host="${hp%%:*}"
+            if [[ "$hp" == *:* ]]; then port="${hp##*:}"
+            elif [[ "$scheme" == https ]]; then port=443
+            else port=80; fi
+            ;;
+        *) return 1 ;;
+    esac
+    if [[ "$repo" == sftp* ]]; then
+        # Resolve ~/.ssh/config aliases to the real HostName/Port
+        if cfg="$(ssh -G ${port:+-p "$port"} "$host" 2>/dev/null)"; then
+            host="$(awk '$1 == "hostname" {print $2; exit}' <<<"$cfg")"
+            port="$(awk '$1 == "port" {print $2; exit}' <<<"$cfg")"
+        fi
+        port="${port:-22}"
+    fi
+    echo "$host $port"
+}
+
+repo_reachable() {
+    local ep host port
+    ep="$(repo_endpoint "$1")" || return 0
+    read -r host port <<<"$ep"
+    timeout 5 bash -c 'exec 3<>"/dev/tcp/$1/$2"' _ "$host" "$port" 2>/dev/null
+}
+
+# Pick the first usable target and set TARGET_NAME / RESTIC_REPOSITORY.
+# $1 = "strict" (apply network rules) or "any" (only require reachability)
+select_target() {
+    local mode="$1" t name repo nets
+    for t in "${TARGETS[@]}"; do
+        IFS='|' read -r name repo nets <<<"$t"
+        if [[ -n "$ONLY_TARGET" && "$name" != "$ONLY_TARGET" ]]; then
+            continue
+        fi
+        if [[ "$mode" == strict ]] && ! on_network "$nets"; then
+            log "target '$name': not on an allowed network"
+            continue
+        fi
+        if ! repo_reachable "$repo"; then
+            log "target '$name': server not reachable"
+            continue
+        fi
+        TARGET_NAME="$name"
+        export RESTIC_REPOSITORY="$repo"
+        RESTIC_OPTS=()
+        # Never prompt for SSH passwords/host keys when running unattended
+        if [[ "$repo" == sftp:* ]]; then
+            RESTIC_OPTS+=(-o "sftp.args=-o BatchMode=yes -o ConnectTimeout=10")
+        fi
+        log "using target '$name' ($repo)"
+        return 0
+    done
+    if [[ -n "$ONLY_TARGET" ]]; then
+        log "target '$ONLY_TARGET' not usable (or not defined)"
+    else
+        log "no usable target"
+    fi
+    return 1
+}
+
+check_conditions() {
+    on_ac_power || { log "skipping: on battery"; return 1; }
+    if [[ "$SKIP_METERED" == true ]] && is_metered; then
+        log "skipping: connection is metered"
+        return 1
+    fi
+    select_target strict
+}
+
+prune_allowed_here() {
+    ((${#PRUNE_TARGETS[@]} == 0)) && return 0
+    local t
+    for t in "${PRUNE_TARGETS[@]}"; do
+        [[ "$t" == "$TARGET_NAME" ]] && return 0
+    done
+    return 1
+}
+
+# ── Backup ──────────────────────────────────────────────────────────────────
+
+run_backup() {
+    mkdir -p "$STATE_DIR"
+
+    local backup_args=(--one-file-system --exclude-caches --tag auto)
+    [[ -r "$EXCLUDE_FILE" ]] && backup_args+=(--exclude-file "$EXCLUDE_FILE")
+
+    log "starting backup of ${BACKUP_PATHS[*]}"
+    local rc=0
+    restic "${RESTIC_OPTS[@]}" backup "${backup_args[@]}" "${BACKUP_PATHS[@]}" || rc=$?
+    if ((rc != 0)); then
+        # Exit code 3 = snapshot created but some files unreadable; still counts
+        if ((rc != 3)); then
+            notify critical "Backup failed" "restic exited with code $rc (target '$TARGET_NAME'). Check: journalctl --user -u restic-backup"
+            exit "$rc"
+        fi
+        log "backup finished with unreadable files (exit 3)"
+    fi
+    date +%s >"$STATE_DIR/last-backup"
+    echo "$TARGET_NAME" >"$STATE_DIR/last-target"
+
+    # Retention + prune, at most every PRUNE_INTERVAL_DAYS and only on PRUNE_TARGETS
+    local last_prune=0 now
+    now=$(date +%s)
+    [[ -r "$STATE_DIR/last-prune" ]] && last_prune=$(<"$STATE_DIR/last-prune")
+    if ((now - last_prune >= PRUNE_INTERVAL_DAYS * 86400)); then
+        if prune_allowed_here; then
+            log "applying retention policy and pruning"
+            if restic "${RESTIC_OPTS[@]}" forget --prune --tag auto \
+                --keep-hourly "$KEEP_HOURLY" --keep-daily "$KEEP_DAILY" \
+                --keep-weekly "$KEEP_WEEKLY" --keep-monthly "$KEEP_MONTHLY"; then
+                echo "$now" >"$STATE_DIR/last-prune"
+            else
+                notify normal "Backup prune failed" "Backup succeeded, but pruning old snapshots failed."
+            fi
+        else
+            log "prune due, but deferred: target '$TARGET_NAME' not in PRUNE_TARGETS"
+        fi
+    fi
+
+    [[ "$NOTIFY_ON_SUCCESS" == true ]] && notify low "Backup complete" "Snapshot saved via '$TARGET_NAME'"
+    log "done"
+}
+
+# ── Main ────────────────────────────────────────────────────────────────────
+
+ONLY_TARGET=""
+if [[ "${1:-}" == --target ]]; then
+    ONLY_TARGET="${2:?--target needs a name}"
+    shift 2
+fi
+
+case "${1:-}" in
+    --check) check_conditions ;;
+    --force) select_target any; run_backup ;;
+    --init)  select_target any; restic "${RESTIC_OPTS[@]}" init ;;
+    "")      check_conditions || exit 0; run_backup ;;
+    *)       select_target any; exec restic "${RESTIC_OPTS[@]}" "$@" ;;
+esac

@@ -12,6 +12,7 @@ dnf5 install -y \
     pinta \
     podman \
     podman-compose \
+    restic \
     solaar \
     solaar-udev \
     syncthing \

@@ -1,0 +1,18 @@
+[Unit]
+Description=Incremental backup to remote server (restic)
+Documentation=man:restic(1)
+After=network-online.target
+# Silently skip until the user has configured backups
+ConditionPathExists=%h/.config/restic-backup/config
+# Skip while running on battery
+ConditionACPower=true
+
+[Service]
+Type=oneshot
+# Exit code != 0 here means "conditions not met" -> skipped, not failed
+ExecCondition=/usr/bin/restic-backup --check
+ExecStart=/usr/bin/restic-backup
+Nice=10
+IOSchedulingClass=idle
+CPUSchedulingPolicy=batch
+TimeoutStartSec=6h

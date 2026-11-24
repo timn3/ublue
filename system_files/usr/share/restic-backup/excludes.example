@@ -1,0 +1,9 @@
+$HOME/.cache
+$HOME/.local/share/Trash
+$HOME/.local/share/containers
+$HOME/.var/app/*/cache
+$HOME/Downloads
+**/node_modules
+**/target
+**/.venv
+**/__pycache__
