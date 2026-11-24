@@ -21,6 +21,7 @@ dnf5 install -y \
     fzf \
     gcc \
     git-delta \
+    git-credential-libsecret \
     htop \
     jq \
     just \
